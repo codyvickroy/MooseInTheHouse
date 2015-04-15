@@ -35,10 +35,13 @@ public abstract class Player {
     }
 
     /**
+     * Sets the given card in the player's house.
+     * If the card is an occupied room then increment the players points.
+     * If the index is larger than size of the house it is added to the house.
+     * If the index within the size of the house it will overwrite the card at that position.
      *
-     *
-     * @param index
-     * @param card
+     * @param index position of card to be played
+     * @param card  card to be played
      */
     public void setCardInHouse(int index, Card card) {
         if ( ! card.isBottomCard() && ! card.isDefensive()) {
@@ -65,6 +68,11 @@ public abstract class Player {
         setCardInHouse(move.getHousePosition(), move.getCard());
     }
 
+    /**
+     * Compares player ids
+     * @param player    player to compare
+     * @return          true if player ids match
+     */
     public boolean equals(Player player) {
         return id == player.getID();
     }

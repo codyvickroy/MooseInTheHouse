@@ -13,9 +13,11 @@ public class Game {
     private static Deck deck;
     private CardObserver cardObserver;
 
-    /*
-     *  Gets the number of players and deals to all players.
-     *  Assumes a minumum of two players
+    /**
+     * Gets the number of players and deals to all players.
+     * Assumes a minimum of two players
+     *
+     * @param p players to add
      */
     public Game(Player[] p){
         players = p;
@@ -26,13 +28,11 @@ public class Game {
         }
     }//end constructor
 
-
-    /*
+    /**
      *  The meat of the game.
      *
      *  move history
      *  points of all players
-     *
      */
     public void gameLoop(){
 
@@ -56,6 +56,12 @@ public class Game {
     /*
      *  If the deck is empty and no moves are left end the game.
      */
+
+    /**
+     *  If the deck is empty and no moves are left end the game.
+     *
+     * @return  true if all players have skipped their turn and the deck is empty
+     */
     private boolean gameOver() {
         if(deck.size() == 0){
             for (int i = 0; i < players.length; i++) {
@@ -67,14 +73,18 @@ public class Game {
         return true;
     }//end allPlayersPassed
 
+    /**
+     * Returns the player with the given id.
+     *
+     * @param id    id of desired player
+     * @return      player with matching id if found
+     */
     public static Player getPlayer(int id) {
-
         for (Player player : players) {
             if (player.getID() == id) {
                 return player;
             }
         }
-
         return null;
     }
 
