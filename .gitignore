@@ -1,0 +1,20 @@
+# Mac stuff #
+#############
+.DS_Store
+
+# IntelliJ Stuff #
+##################
+.idea/
+out/
+.iml
+.html
+
+# BlueJ Stuff #
+###############
+*.bluej
+
+
+# Everything Else #
+###################
+*.pdf
+*.class
