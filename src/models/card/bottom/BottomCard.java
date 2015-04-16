@@ -12,17 +12,27 @@ public abstract class BottomCard extends Card {
     }
 
     /**
-     * Returns true.
-     *
-     * All bottom cards only require an empty space to be played. There is no limit to the number of cards that may be
-     * played in any house.
+     * Returns a new position if the player does not already have 3 empty rooms in their house.
      *
      * @param house     Cards in house
      * @return          Position card should be placed
      */
     @Override
     public int validate(Card[] house) {
-        return house.length;
+
+        int emptyRoomCount = 0;
+
+        for (Card card : house ){
+            if (isBottomCard() && ! Card.isMoose(card)) {
+                emptyRoomCount++;
+            }
+        }
+
+        if (emptyRoomCount >= 3) {
+            return -1;
+        } else {
+            return house.length;
+        }
     }
 
     @Override

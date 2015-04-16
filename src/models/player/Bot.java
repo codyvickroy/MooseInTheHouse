@@ -25,7 +25,6 @@ public class Bot extends Player {
         this.behavior = behavior;
     }
 
-    // TODO improve structure for modular defensive and offensive behavior
     @Override
     public Move makeMove() {
 
@@ -38,8 +37,6 @@ public class Bot extends Player {
                 return new Move(getID(), card, getID(), position);
             }
         }
-
-        // Offensive
 
         // Index of players in order of priority
         int[] priorities = behavior.organizeThreats(Game.getPlayers());
@@ -59,8 +56,10 @@ public class Bot extends Player {
             }
         }
 
-        // No moves left. End turn.
-        return null;
+        // No moves left. Discard a card.
+        Card discardCard = hand.get(0);
+        hand.remove(0);
+        return new Move(getID(), discardCard, Move.DISCARD_PILE, 0);
     }
 
     public int[] getPriorities(Player[] players) {
