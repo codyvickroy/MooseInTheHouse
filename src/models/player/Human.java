@@ -6,9 +6,6 @@ import models.game.Move;
 
 import java.util.ArrayList;
 
-/**
- * Created by brandt on 4/15/15.
- */
 public class Human extends Player {
     private boolean takingTurn;
     private Move move;

@@ -17,14 +17,14 @@ public class Game {
      * Gets the number of players and deals to all players.
      * Assumes a minimum of two players
      *
-     * @param p players to add
+     * @param players players to add
      */
-    public Game(Player[] p){
-        players = p;
+    public Game(Player[] players){
+        Game.players = players;
         deck = new Deck();
 
-        for (int i = 0; i < players.length; i++) {
-            players[i].addCardsToHand(deck.deal(4));
+        for (int i = 0; i < Game.players.length; i++) {
+            Game.players[i].addCardsToHand(deck.deal(4));
         }
     }//end constructor
 
