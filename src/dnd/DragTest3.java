@@ -6,16 +6,15 @@ import java.io.*;
 import java.util.*;
 import javax.activation.*;
 import javax.swing.*;
-import javax.swing.text.*;
 
 public class DragTest3 {
   public JComponent makeUI() {
     DragPanel p1 = new DragPanel();
     p1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    p1.add(new JLabel(new ImageIcon("back1.png")));
-    p1.add(new JLabel(new ImageIcon("back.png")));
-    p1.add(new JLabel(new ImageIcon("back.png")));
-    p1.add(new JLabel(new ImageIcon("back.png")));
+    p1.add(new JLabel(new ImageIcon("cards/back1.png")));
+    p1.add(new JLabel(new ImageIcon("cards/back.png")));
+    p1.add(new JLabel(new ImageIcon("cards/back.png")));
+    p1.add(new JLabel(new ImageIcon("cards/back.png")));
     MouseListener handler = new Handler();
     p1.addMouseListener(handler);
     LabelTransferHandler th = new LabelTransferHandler();
