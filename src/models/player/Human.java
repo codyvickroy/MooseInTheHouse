@@ -11,7 +11,7 @@ public class Human extends Player {
     private Move move;
 
     public Human(int id, ArrayList<Card> hand) {
-        super(id, hand);
+        super(id);
 
         takingTurn = false;
     }

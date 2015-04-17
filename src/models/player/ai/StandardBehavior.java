@@ -1,27 +1,16 @@
 package models.player.ai;
 
-import models.player.Player;
+import models.player.ai.defense.BruteForceDefense;
+import models.player.ai.discard.ValueBasedDiscard;
+import models.player.ai.offense.BruteForceOffense;
+import models.player.ai.threatAlgorithm.BestScoreFirst;
 
 /**
  * Created by brandt on 3/23/15.
  */
-public class StandardBehavior implements Behavior {
+public final class StandardBehavior extends Behavior {
 
-    @Override
-    public int[] organizeThreats(Player[] players) {
-
-            int[] order = new int[players.length];
-
-            // Organize threats in non-ascending points order.
-            for (int i = 1; i < players.length; i++) {
-                int j = i;
-                while (j > 0 && players[j - 1].getPoints() > players[i].getPoints()) {
-                    order[j] = order[j - 1];
-                    j--;
-                }
-                order[j] = i;
-            }
-
-            return order;
+    public StandardBehavior() {
+        super(new BruteForceOffense(), new BestScoreFirst(), new BruteForceDefense(), new ValueBasedDiscard());
     }
 }

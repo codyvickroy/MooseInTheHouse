@@ -9,7 +9,7 @@ import models.player.Player;
  */
 public class BruteForceDefense implements Defense {
 
-    public Move action(Player player) {
+    public Move chooseDefense(Player player) {
         // Defensive
         for (Card card : player.getHand()) {
             int position = card.validate(player.getHouse());

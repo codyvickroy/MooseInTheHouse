@@ -8,5 +8,5 @@ import models.player.Player;
  */
 public interface Defense {
 
-    public Move action(Player player);
+    public Move chooseDefense(Player player);
 }

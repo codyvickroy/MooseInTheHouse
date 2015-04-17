@@ -6,6 +6,8 @@ package models.card;
  */
 public abstract class Card {
 
+    private int value;
+
     public static enum CardClass {
         MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN
     }
@@ -14,7 +16,7 @@ public abstract class Card {
     private String imagePath;
     public static final int INVALID_POSITION = -1;
 
-    public Card(CardClass cardClass, String imagePath) {
+    public Card(CardClass cardClass, String imagePath, int value) {
         this.cardClass = cardClass;
         this.imagePath = imagePath;
     }
@@ -68,5 +70,9 @@ public abstract class Card {
         }
 
         return "CARD NOT FOUND";
+    }
+
+    public int getValue() {
+        return value;
     }
 }

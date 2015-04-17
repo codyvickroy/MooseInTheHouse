@@ -17,9 +17,9 @@ public abstract class Player {
     protected ArrayList<Card> hand = new ArrayList<Card>();
     protected ArrayList<Card> house = new ArrayList<Card>();
 
-    public Player(int id, ArrayList<Card> hand) {
+    public Player(int id) {
         this.id = id;
-        this.hand = hand;
+        hand = new ArrayList<>();
     }
 
     public abstract Move makeMove();
@@ -54,6 +54,10 @@ public abstract class Player {
             house.set(index, card);
     }
 
+    public void setCardInHouse(Move move) {
+        setCardInHouse(move.getHousePosition(), move.getCard());
+    }
+
     public boolean hasMooseInHouse() {
         for (int i = 0; i < house.size(); i++) {
             if (Card.isMoose(house.get(i))) {
@@ -62,10 +66,6 @@ public abstract class Player {
         }
 
         return false;
-    }
-
-    public void setCardInHouse(Move move) {
-        setCardInHouse(move.getHousePosition(), move.getCard());
     }
 
     /**

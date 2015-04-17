@@ -72,8 +72,10 @@ public class Deck {
         Card[] cardsDelt = new Card[count];  //makes an array of size count
 
         for(int i = 0; i <= (count-1) ; i++){
-            cardsDelt[i] = cards.get(0);    //adds the bottom card of the deck to the array
-            cards.remove(0);                //deletes the card from the deck
+            if (cards.size() > 0) {
+                cardsDelt[i] = cards.get(0);    //adds the bottom card of the deck to the array
+                cards.remove(0);                //deletes the card from the deck
+            }
         }//end for count
 
         return cardsDelt;
@@ -105,5 +107,14 @@ public class Deck {
     public List<Card> getDiscard(){
         return discard;
     }//end getCards
+
+    /**
+     * Places a card in the discard pile
+     *
+     * @param card
+     */
+    public void discard(Card card) {
+        discard.add(card);
+    }
 
 }//end Deck Class

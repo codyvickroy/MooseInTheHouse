@@ -7,22 +7,25 @@ import models.player.Player;
  */
 public class BestScoreFirst implements ThreatAlgorithm {
 
-    @Override
-    public Player[] threatAlgorithm(Player[] players) {
+    public int[] threatAlgorithm(Player[] players) {
+
+        int[] order = new int[players.length];
 
         // Organize threats in non-ascending points order.
         for (int i = 1; i < players.length; i++) {
             int j = i;
-
-            Player temp = players[i];
-
-            while (j > 0 && players[j - 1].getPoints() > temp.getPoints()) {
-                players[j] = players[j - 1];
+            while (j > 0 && players[j - 1].getPoints() > players[i].getPoints()) {
+                order[j] = order[j - 1];
                 j--;
             }
-            players[j] = temp;
+            order[j] = i;
         }
 
-        return players;
+        // Swaps index for player id
+        for (int i = 0; i < order.length; i++) {
+            order[i] = players[order[i]].getID();
+        }
+
+        return order;
     }
 }

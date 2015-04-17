@@ -5,7 +5,7 @@ package models.card.top;
  */
 public class MooseBait extends TopCard {
     public MooseBait() {
-        super(CardClass.MOOSE, "img/path");
+        super(CardClass.MOOSE, "img/path", 6);
     }
 
     @Override

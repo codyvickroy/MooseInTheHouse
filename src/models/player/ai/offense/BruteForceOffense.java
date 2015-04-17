@@ -10,7 +10,7 @@ import models.player.Player;
 public class BruteForceOffense implements Offense{
 
     @Override
-    public Move action(Player[] players, Player player) {
+    public Move chooseOffense(Player[] players, Player player) {
 
         for (Player target : players) {
             for (int i = 0; i < player.getHand().length; i++) {

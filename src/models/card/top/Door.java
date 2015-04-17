@@ -1,7 +1,6 @@
 package models.card.top;
 
 import models.card.Card;
-import models.card.bottom.Moose;
 
 /**
  * Created by Brandt Newton on 3/17/2015.
@@ -9,7 +8,7 @@ import models.card.bottom.Moose;
 public class Door extends TopCard {
 
     public Door() {
-        super(null, "asdf");
+        super(null, "asdf", 5);
     }
 
     /**
@@ -22,7 +21,7 @@ public class Door extends TopCard {
     public int validate(Card[] house) {
 
         for (int i = 0; i < house.length; i++) {
-            if (house[i].isBottomCard() && ! (house[i] instanceof Moose)) {
+            if (house[i].isBottomCard() && !  Card.isMoose(house[i])) {
                 return i;
             }
         }

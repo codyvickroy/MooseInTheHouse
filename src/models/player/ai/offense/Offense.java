@@ -7,5 +7,5 @@ import models.player.Player;
  * Created by brandt on 3/27/15.
  */
 public interface Offense {
-    public Move action(Player[] players, Player player);
+    public Move chooseOffense(Player[] players, Player player);
 }

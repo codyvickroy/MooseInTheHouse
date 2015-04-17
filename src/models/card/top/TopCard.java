@@ -7,8 +7,8 @@ import models.card.Card;
  */
 public abstract class TopCard extends Card {
 
-    public TopCard(CardClass cardClass, String imagePath) {
-        super(cardClass, imagePath);
+    public TopCard(CardClass cardClass, String imagePath, int value) {
+        super(cardClass, imagePath, value);
     }
 
     /**

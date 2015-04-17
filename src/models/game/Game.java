@@ -1,5 +1,7 @@
 package models.game;
 
+import models.card.Card;
+import models.player.Bot;
 import models.player.Player;
 import view.CardObserver;
 
@@ -36,6 +38,8 @@ public class Game {
      */
     public void gameLoop(){
 
+        int roundCount = 0;
+
         do {// Main loop
             for(int i = 0; i <= (players.length - 1) ; i++){
                 // Deal cards
@@ -44,18 +48,33 @@ public class Game {
                 updateDeckObserver();
 
                 Move playerMove = players[i].makeMove();          //player makes the move
-                updateAllObservers();
+                processMove(playerMove);
+                updateHandObserver();
+                updateHouseObserver();
 
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all players
+
+            System.out.println("ROUND " + roundCount++);
         } while( ! gameOver());
 
         // TODO process stats here
     }
 
-    /*
-     *  If the deck is empty and no moves are left end the game.
-     */
+    private void processMove(Move move) {
+        if (move.getReceivingPlayerID() == Move.DISCARD_PILE) {
+            deck.discard(move.getCard());
+            updateDiscardPileObserver();
+
+            for (Card card : Game.getPlayer(move.getCardPlayerID()).getHand()) {
+                System.out.print(card + ", ");
+            }
+            System.out.print(move + "\n");
+        } else {
+            players[move.getReceivingPlayerID()].setCardInHouse(move);
+        }
+        System.out.println(move);
+    }
 
     /**
      *  If the deck is empty and no moves are left end the game.
@@ -69,8 +88,10 @@ public class Game {
                     return false;
                 }
             }
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }//end allPlayersPassed
 
     /**
@@ -90,6 +111,21 @@ public class Game {
 
     public static Player[] getPlayers() {
         return players;
+    }
+
+    public static Player[] getPlayersExcept(int id) {
+
+        Player[] returnPlayers = new Player[players.length -1];
+        int offset = 0;
+
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getID() != id) {
+                returnPlayers[offset] = players[i];
+                offset++;
+            }
+        }
+
+        return returnPlayers;
     }
 
     /**
@@ -158,5 +194,21 @@ public class Game {
     private void updateDiscardPileObserver() {
         if (cardObserver != null)
             cardObserver.updateDiscardPile();
+    }
+
+    public static void main(String[] args){
+
+        Player[] players = new Player[] {
+                new Bot(0),
+                new Bot(1),
+                new Bot(2),
+                new Bot(3)
+        };
+
+        Game game = new Game(players);
+
+        System.out.println("Cards have been dealt.");
+
+        game.gameLoop();
     }
 }//end Game Class

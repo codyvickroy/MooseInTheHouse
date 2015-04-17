@@ -7,7 +7,14 @@ import models.player.Player;
  */
 public class FirstComeFirstServed implements ThreatAlgorithm {
     @Override
-    public Player[] threatAlgorithm(Player[] players) {
-        return players;
+    public int[] threatAlgorithm(Player[] players) {
+
+        int[] threats = new int[players.length];
+
+        for (int i = 0; i < players.length; i++) {
+            threats[i] = players[i].getID();
+        }
+
+        return threats;
     }
 }
