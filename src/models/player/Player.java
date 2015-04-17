@@ -20,6 +20,7 @@ public abstract class Player {
     public Player(int id) {
         this.id = id;
         hand = new ArrayList<Card>();
+        house = new ArrayList<Card>();
     }
 
     public abstract Move makeMove();
@@ -86,10 +87,25 @@ public abstract class Player {
     }
 
     public Card[] getHand() {
-        return house.toArray(new Card[hand.size()]);
+        return hand.toArray(new Card[hand.size()]);
     }
 
     public Card[] getHouse() {
         return house.toArray(new Card[house.size()]);
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public static Player findPlayerByID(Player[] players, int id) {
+
+        for (Player player : players) {
+            if (player.getID() == id) {
+                return player;
+            }
+        }
+
+        return null;
     }
 }

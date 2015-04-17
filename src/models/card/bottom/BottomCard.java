@@ -29,7 +29,7 @@ public abstract class BottomCard extends Card {
         }
 
         if (emptyRoomCount >= 3) {
-            return -1;
+            return INVALID_POSITION;
         } else {
             return house.length;
         }

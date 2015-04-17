@@ -10,25 +10,23 @@ import models.player.Player;
 public class BruteForceOffense implements Offense{
 
     @Override
-    public Move chooseOffense(Player[] players, Player player) {
+    public Move chooseOffense(Player[] players, int[] priorities, Player player) {
 
-        for (Player target : players) {
-            for (int i = 0; i < player.getHand().length; i++) {
+        Card[] hand = player.getHand();
 
-                Card card = player.getHand()[i];
+        for (int i = 0; i < players.length - 1; i++) {
+            Player target = Player.findPlayerByID(players, priorities[i]);
 
-                if ( ! card.isDefensive()) {
-
-                    int position = card.validate(target.getHouse());
-
-                    if (position > -1) {
-//                        player.removeCardFromHand(i);
-//                        return new Move(player.getID(), card, target.getID(), position);
-                    }
+            for (int j = 0; j < hand.length; j++) {
+                Card card = hand[j];
+                int position = card.validate(target.getHouse());
+                if (!card.isDefensive() && position != Card.INVALID_POSITION) {
+                    return new Move(player.getID(), card, target.getID(), position);
                 }
             }
         }
 
+        // No offensive moves found
         return null;
     }
 }

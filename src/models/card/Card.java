@@ -74,6 +74,10 @@ public abstract class Card {
         return "CARD NOT FOUND";
     }
 
+    public boolean equals(Card card) {
+        return (this.getCardClass() == card.getCardClass()) && ! (this.isBottomCard() ^ card.isBottomCard());
+    }
+
     public int getValue() {
         return value;
     }

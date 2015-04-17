@@ -69,13 +69,16 @@ public class Deck {
      * @return cardsDelt
      */
     public Card[] deal(int count) {
-        Card[] cardsDelt = new Card[count];  //makes an array of size count
+        Card[] cardsDelt;
 
-        for(int i = 0; i <= (count-1) ; i++){
-            if (cards.size() > 0) {
-                cardsDelt[i] = cards.get(0);    //adds the bottom card of the deck to the array
-                cards.remove(0);                //deletes the card from the deck
-            }
+        if (count > cards.size()) {
+            cardsDelt = new Card[cards.size()];  //makes an array of size count
+        } else {
+            cardsDelt = new Card[count];  //makes an array of size count
+        }
+        for(int i = 0; i < cardsDelt.length ; i++){
+            cardsDelt[i] = cards.get(0);    //adds the bottom card of the deck to the array
+            cards.remove(0);                //deletes the card from the deck
         }//end for count
 
         return cardsDelt;

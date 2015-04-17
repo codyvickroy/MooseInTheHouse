@@ -6,9 +6,8 @@
 ##################
 .idea/
 out/
-.iml
-.html
-
+*.iml
+*.html
 # BlueJ Stuff #
 ###############
 *.bluej

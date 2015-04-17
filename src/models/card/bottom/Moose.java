@@ -20,7 +20,7 @@ public class Moose extends BottomCard {
     public int validate(Card[] house) {
         for (Card card : house) {
             if (Card.isMoose(card)) {
-                return -1;
+                return INVALID_POSITION;
             }
         }
         return house.length;

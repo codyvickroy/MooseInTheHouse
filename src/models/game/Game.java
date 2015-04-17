@@ -1,6 +1,5 @@
 package models.game;
 
-import models.card.Card;
 import models.player.Bot;
 import models.player.Player;
 import view.CardObserver;
@@ -44,7 +43,7 @@ public class Game {
 
             System.out.println("ROUND " + roundCount++);
 
-            for(int i = 0; i <= (players.length - 1) ; i++){
+            for(int i = 0; i <= (players.length - 1) && (! gameOver()); i++){
                 // Deal cards
                 players[i].addCardsToHand(deck.deal(1));
                 updateHandObserver();
@@ -67,13 +66,10 @@ public class Game {
             deck.discard(move.getCard());
             updateDiscardPileObserver();
 
-            for (Card card : Game.getPlayer(move.getCardPlayerID()).getHand()) {
-                System.out.print(card + ", ");
-            }
-            System.out.print(move + "\n");
         } else {
             players[move.getReceivingPlayerID()].setCardInHouse(move);
         }
+
         System.out.println(move);
     }
 
@@ -101,7 +97,7 @@ public class Game {
      * @param id    id of desired player
      * @return      player with matching id if found
      */
-    public static Player getPlayer(int id) {
+    public static Player getPlayerByID(int id) {
         for (Player player : players) {
             if (player.getID() == id) {
                 return player;

@@ -49,8 +49,8 @@ public class Human extends Player {
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
-            } else if (card.validate(Game.getPlayer(playerID).getHouse()) != Card.INVALID_POSITION) {
-                move = new Move(getID(), card, playerID, card.validate(Game.getPlayer(playerID).getHouse()));
+            } else if (card.validate(Game.getPlayerByID(playerID).getHouse()) != Card.INVALID_POSITION) {
+                move = new Move(getID(), card, playerID, card.validate(Game.getPlayerByID(playerID).getHouse()));
             }
         }
 

@@ -1,5 +1,6 @@
 package models.player.ai.threatAlgorithm;
 
+import models.player.Bot;
 import models.player.Player;
 
 /**
@@ -27,5 +28,21 @@ public class BestScoreFirst implements ThreatAlgorithm {
         }
 
         return order;
+    }
+
+    public static void main(String[] args) {
+        BestScoreFirst bestScoreFirst = new BestScoreFirst();
+
+        Player[] players = new Player[] {
+            new Bot(1),
+            new Bot(2),
+            new Bot(3),
+        };
+
+        players[0].setPoints(0);
+        players[1].setPoints(1);
+        players[2].setPoints(2);
+
+        int[] results = bestScoreFirst.threatAlgorithm(players);
     }
 }
