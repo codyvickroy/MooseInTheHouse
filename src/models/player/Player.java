@@ -19,7 +19,7 @@ public abstract class Player {
 
     public Player(int id) {
         this.id = id;
-        hand = new ArrayList<>();
+        hand = new ArrayList<Card>();
     }
 
     public abstract Move makeMove();

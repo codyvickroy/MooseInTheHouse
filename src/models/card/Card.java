@@ -1,6 +1,8 @@
 package models.card;
 
 
+import javax.swing.*;
+
 /**
  * Created by brandt on 3/13/15.
  */
@@ -74,5 +76,13 @@ public abstract class Card {
 
     public int getValue() {
         return value;
+    }
+
+    public ImageIcon getImage() {
+        return new ImageIcon(imagePath);
+    }
+
+    public ImageIcon getCardBack() {
+        return new ImageIcon("/cards/back.png");
     }
 }

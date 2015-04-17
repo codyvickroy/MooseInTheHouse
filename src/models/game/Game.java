@@ -41,6 +41,9 @@ public class Game {
         int roundCount = 0;
 
         do {// Main loop
+
+            System.out.println("ROUND " + roundCount++);
+
             for(int i = 0; i <= (players.length - 1) ; i++){
                 // Deal cards
                 players[i].addCardsToHand(deck.deal(1));
@@ -54,8 +57,6 @@ public class Game {
 
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all players
-
-            System.out.println("ROUND " + roundCount++);
         } while( ! gameOver());
 
         // TODO process stats here

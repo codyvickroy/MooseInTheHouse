@@ -1,16 +1,12 @@
 package view;
 
-import java.awt.EventQueue;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 
-public class GameGUI extends JFrame {
+public class GameGUI extends JFrame implements CardObserver {
    
     public GameGUI() {
         
@@ -98,6 +94,26 @@ public class GameGUI extends JFrame {
             ex.setVisible(true);
          }
       });
+    }
+
+    @Override
+    public void updateHands() {
+
+    }
+
+    @Override
+    public void updateHouses() {
+
+    }
+
+    @Override
+    public void updateDeck() {
+
+    }
+
+    @Override
+    public void updateDiscardPile() {
+
     }
 }
           
