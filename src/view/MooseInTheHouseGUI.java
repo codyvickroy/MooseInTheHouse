@@ -131,7 +131,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         c3housePanel.add(c3houselabel);
         pcardPanel.add(pcardlabel);
         phousePanel.add(phouselabel);
-        
+
         //Add back images to each hand
         c1card1 = new JLabel(new ImageIcon("back.png"));
         c1card2 = new JLabel(new ImageIcon("back.png"));

@@ -27,7 +27,6 @@ public abstract class BottomCard extends Card {
         for (Card card : house ){
             if (card.isBottomCard() && ! Card.isMoose(card)) {
                 emptyRoomCount++;
-                System.out.println("empty room found " + card);
             }
         }
 

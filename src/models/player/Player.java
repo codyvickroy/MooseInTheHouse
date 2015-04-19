@@ -98,6 +98,7 @@ public abstract class Player {
         this.points = points;
     }
 
+
     public static Player findPlayerByID(Player[] players, int id) {
 
         for (Player player : players) {
@@ -106,6 +107,7 @@ public abstract class Player {
             }
         }
 
+        System.err.println("No player by ID " + id);
         return null;
     }
 }

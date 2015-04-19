@@ -4,7 +4,7 @@ import models.card.Card;
 import models.game.Game;
 import models.game.Move;
 import models.player.ai.Behavior;
-import models.player.ai.StandardBehavior;
+import models.player.ai.behaviors.StandardBehavior;
 
 /**
  * Created by brandt on 3/23/15.
@@ -15,7 +15,7 @@ public class Bot extends Player {
 
     public Bot(int id) {
         super(id);
-        this.behavior = new StandardBehavior();
+
     }
 
     public Bot(int id, Behavior behavior) {
@@ -26,26 +26,20 @@ public class Bot extends Player {
     @Override
     public Move makeMove() {
 
-        Move move;
+        // Initialize new behavior
+        Behavior behavior = new StandardBehavior(this, Game.getPlayersExcept(getID()));
 
-        move = behavior.chooseDefense(this);
+        Move move = null;
+
+        while(move == null && hand.size() > 0) {
+            move = behavior.nextStrategy();
+        }
 
         if (move != null) {
             removeCardFromHand(move.getCard());
-            return move;
         }
 
-        move = behavior.chooseOffense(Game.getPlayersExcept(getID()), this);
-
-        if (move != null) {
-            removeCardFromHand(move.getCard());
-            return move;
-        }
-
-        // No moves left. Discard a card.
-        Card discardCard = hand.get(0);
-        hand.remove(0);
-        return new Move(getID(), discardCard, Move.DISCARD_PILE, 0);
+        return move;
     }
 
     private void removeCardFromHand(Card card) {

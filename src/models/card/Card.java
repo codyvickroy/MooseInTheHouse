@@ -22,7 +22,11 @@ public abstract class Card {
 
     public Card(CardClass cardClass, String imageName, int value) {
         this.cardClass = cardClass;
-        imageIcon = new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + imageName));
+        try {
+            imageIcon = new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + imageName));
+        } catch(NullPointerException e) {
+            System.err.println("Error loading " + this + " image!");
+        }
         this.value = value;
     }
 

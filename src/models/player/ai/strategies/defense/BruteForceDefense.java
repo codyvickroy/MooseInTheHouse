@@ -1,4 +1,4 @@
-package models.player.ai.defense;
+package models.player.ai.strategies.defense;
 
 import models.card.Card;
 import models.game.Move;
@@ -7,9 +7,14 @@ import models.player.Player;
 /**
  * Created by brandt on 3/27/15.
  */
-public class BruteForceDefense implements Defense {
+public class BruteForceDefense extends Defense {
 
-    public Move chooseDefense(Player player) {
+    public BruteForceDefense(Player player) {
+        super(player);
+    }
+
+    @Override
+    public Move action() {
 
         Card[] hand = player.getHand();
 
@@ -23,5 +28,4 @@ public class BruteForceDefense implements Defense {
         // No defensive moves found.
         return null;
     }
-
 }

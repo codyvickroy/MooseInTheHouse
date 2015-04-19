@@ -7,6 +7,7 @@ import models.card.Card;
  */
 public class Move {
     public static final int DISCARD_PILE = -1;
+    public static final int NO_MOVE = -1;
     private Card card;
     private int cardPlayerID;
     private int receivingPlayerID;
