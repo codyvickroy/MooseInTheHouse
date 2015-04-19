@@ -75,6 +75,17 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
     JLabel c3card4;
     JLabel deck;
 
+
+    private static ImageIcon createImageIcon(String path,String description) {
+        java.net.URL imgURL = MooseInTheHouseGUI.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+
     //Construct the playing screen
     public MooseInTheHouseGUI (){
         //Set the background color
@@ -120,7 +131,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         c3housePanel.add(c3houselabel);
         pcardPanel.add(pcardlabel);
         phousePanel.add(phouselabel);
-
+        
         //Add back images to each hand
         c1card1 = new JLabel(new ImageIcon("back.png"));
         c1card2 = new JLabel(new ImageIcon("back.png"));

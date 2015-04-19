@@ -8,27 +8,26 @@ import javax.swing.*;
  */
 public abstract class Card {
 
-    private int value;
+
 
     public static enum CardClass {
-        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN
+        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN;
     }
 
+    private int value;
     protected CardClass cardClass;
-    private String imagePath;
+    private ImageIcon imageIcon;
     public static final int INVALID_POSITION = -1;
+    private static final String CARD_IMAGE_PATH = "/cards/";
 
-    public Card(CardClass cardClass, String imagePath, int value) {
+    public Card(CardClass cardClass, String imageName, int value) {
         this.cardClass = cardClass;
-        this.imagePath = imagePath;
+        imageIcon = new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + imageName));
+        this.value = value;
     }
 
     public CardClass getCardClass() {
         return cardClass;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     /**
@@ -82,11 +81,20 @@ public abstract class Card {
         return value;
     }
 
+    /**
+     * Returns an ImageIcon of the card.
+     *
+     * @return  card's image icon
+     */
     public ImageIcon getImage() {
-        return new ImageIcon(imagePath);
+        return imageIcon;
     }
 
+    /**
+     * Returns an ImageIcon of the back of a card.
+     * @return
+     */
     public ImageIcon getCardBack() {
-        return new ImageIcon("/cards/back.png");
+        return new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + "back.png"));
     }
 }

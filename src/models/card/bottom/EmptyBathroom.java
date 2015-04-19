@@ -6,6 +6,6 @@ package models.card.bottom;
 public class EmptyBathroom extends BottomCard {
 
     public EmptyBathroom() {
-        super(CardClass.BATHROOM, "asdf", 2);
+        super(CardClass.BATHROOM, "empty_in_bathroom.png", 2);
     }
 }

@@ -7,7 +7,7 @@ import models.card.Card;
  */
 public class Moose extends BottomCard {
     public Moose() {
-        super(CardClass.MOOSE, "asdf", 4);
+        super(CardClass.MOOSE, "moose.png", 4);
     }
 
     /**
