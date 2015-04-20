@@ -3,12 +3,8 @@ package models.card;
 
 import javax.swing.*;
 
-/**
- * Created by brandt on 3/13/15.
- */
+
 public abstract class Card {
-
-
 
     public static enum CardClass {
         MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN;
@@ -22,12 +18,14 @@ public abstract class Card {
 
     public Card(CardClass cardClass, String imageName, int value) {
         this.cardClass = cardClass;
+        this.value = value;
+
+        // Attempt to load card image
         try {
             imageIcon = new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + imageName));
         } catch(NullPointerException e) {
             System.err.println("Error loading " + this + " image!");
         }
-        this.value = value;
     }
 
     public CardClass getCardClass() {
@@ -77,6 +75,12 @@ public abstract class Card {
         return "CARD NOT FOUND";
     }
 
+    /**
+     * Compares 2 Card objects
+     *
+     * @param card  card to compare
+     * @return      true if cards are the same if they have the same class and are either both bottom or top cards
+     */
     public boolean equals(Card card) {
         return (this.getCardClass() == card.getCardClass()) && ! (this.isBottomCard() ^ card.isBottomCard());
     }
@@ -96,7 +100,7 @@ public abstract class Card {
 
     /**
      * Returns an ImageIcon of the back of a card.
-     * @return
+     * @return  card back image icon
      */
     public ImageIcon getCardBack() {
         return new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + "back.png"));

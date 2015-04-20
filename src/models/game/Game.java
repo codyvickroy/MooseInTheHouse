@@ -2,6 +2,7 @@ package models.game;
 
 import models.player.Bot;
 import models.player.Player;
+import remote.Remote;
 import view.CardObserver;
 
 import java.util.ArrayList;
@@ -39,6 +40,12 @@ public class Game {
 
         int roundCount = 0;
 
+        Remote.newGameID();
+
+        if ( ! Remote.initGame()) {
+            System.err.println("Game init failed!");
+        }
+
         do {// Main loop
 
             System.out.println("ROUND " + roundCount++);
@@ -54,6 +61,8 @@ public class Game {
                 updateHandObserver();
                 updateHouseObserver();
 
+                Remote.uploadMove(playerMove);                         //Uploads move to game database
+                Remote.uploadScores();
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all opponents
         } while( ! gameOver());

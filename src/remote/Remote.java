@@ -26,7 +26,7 @@ public class Remote {
             site +=currentGameID();
             site +="&ip=";
             site +=getIP();
-            //System.out.println(site);
+//            System.out.println(site);
             URL web = new URL(site);
             URLConnection gate = web.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
@@ -37,6 +37,7 @@ public class Remote {
         {
             error(e);
         }
+
         return Boolean.parseBoolean(inputLine);
     }
 
