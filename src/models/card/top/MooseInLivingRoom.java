@@ -8,9 +8,7 @@ public class MooseInLivingRoom extends TopCard {
         super(CardClass.LIVINGROOM, "moose_in_livingroom.png", 1);
     }
 
-
-    @Override
     public boolean isDefensive() {
-        return true;
+        return false;
     }
 }
