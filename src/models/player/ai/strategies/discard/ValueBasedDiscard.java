@@ -2,17 +2,11 @@ package models.player.ai.strategies.discard;
 
 import models.card.Card;
 import models.game.Move;
-import models.player.Player;
 
 /**
- * Created by Brandt Newton on 4/17/2015.
+ * Finds the card of the lowest value
  */
-public class ValueBasedDiscard extends Discard{
-
-
-    public ValueBasedDiscard(Player player) {
-        super(player);
-    }
+public class ValueBasedDiscard extends Discard {
 
     @Override
     public Move action() {

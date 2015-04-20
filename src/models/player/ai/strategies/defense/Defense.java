@@ -1,16 +1,10 @@
 package models.player.ai.strategies.defense;
 
-import models.player.Player;
 import models.player.ai.strategies.MoveStrategy;
 
 /**
- * Created by brandt on 3/27/15.
+ * A strategy that primarily considers the player's house
  */
-public abstract class Defense implements MoveStrategy {
+public abstract class Defense extends MoveStrategy {
 
-    protected Player player;
-
-    public Defense(Player player) {
-        this.player = player;
-    }
 }

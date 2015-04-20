@@ -5,23 +5,25 @@ import models.game.Move;
 import models.player.Player;
 import models.player.ai.strategies.targeting.TargetStrategy;
 
+import java.util.Queue;
+
 /**
- * Created by brandt on 3/30/15.
+ * Plays the first offensive move if any.
  */
 public class BruteForceOffense extends Offense{
 
-    public BruteForceOffense(Player[] players, TargetStrategy targetStrategy, Player player) {
-        super(players, targetStrategy, player);
+    public BruteForceOffense(TargetStrategy targetStrategy) {
+        super(targetStrategy);
     }
 
     @Override
     public Move action() {
 
         Card[] hand = player.getHand();
-        int[] priorities = targetStrategy.prioritize();
+        Queue<Integer> priorities = targetStrategy.prioritize(opponents);
 
-        for (int i = 0; i < players.length - 1; i++) {
-            Player target = Player.findPlayerByID(players, priorities[i]);
+        for (Player opponent : opponents) {
+            Player target = Player.findPlayerByID(opponents, priorities.remove());
 
             for (Card card : hand) {
                 int position = card.validate(target.getHouse());

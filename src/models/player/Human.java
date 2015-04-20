@@ -10,9 +10,7 @@ public class Human extends Player {
     private boolean takingTurn;
     private Move move;
 
-    public Human(int id, ArrayList<Card> hand) {
-        super(id);
-
+    public Human(ArrayList<Card> hand) {
         takingTurn = false;
     }
 
@@ -26,11 +24,14 @@ public class Human extends Player {
         move = null;
         takingTurn = true;
 
-        while(move == null) {
+        while(takingTurn && hand.size() > 0) {}
 
+
+        // Update player's hand
+        if (move != null) {
+            removeCardFromHand(move.getCard());
         }
 
-        takingTurn = false;
         return move;
     }
 
@@ -45,12 +46,13 @@ public class Human extends Player {
      * @return          validity of move
      */
     public boolean setMove(Card card, int playerID) {
-        // TODO validate move
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
+                takingTurn = false;
             } else if (card.validate(Game.getPlayerByID(playerID).getHouse()) != Card.INVALID_POSITION) {
                 move = new Move(getID(), card, playerID, card.validate(Game.getPlayerByID(playerID).getHouse()));
+                takingTurn = false;
             }
         }
 

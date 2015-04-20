@@ -7,7 +7,6 @@ import models.card.Card;
  */
 public class Move {
     public static final int DISCARD_PILE = -1;
-    public static final int NO_MOVE = -1;
     private Card card;
     private int cardPlayerID;
     private int receivingPlayerID;
@@ -41,8 +40,13 @@ public class Move {
         return housePosition;
     }
 
+    /**
+     * Returns true if the move is null or it was discard
+     * @param move  move
+     * @return      true if the move was a skip
+     */
     public static boolean skipped(Move move) {
-        return move.getReceivingPlayerID() == DISCARD_PILE;
+        return move == null || move.getReceivingPlayerID() == DISCARD_PILE;
     }
 
     @Override

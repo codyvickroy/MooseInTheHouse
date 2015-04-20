@@ -65,8 +65,8 @@ public class GameGUI extends JFrame implements CardObserver {
             public void actionPerformed(ActionEvent event){
             String helpMSG = ("Object:\nThe object of the game is to keep moose out of the rooms of your house," +
                "\nput moose into your opponents' houses, and have the fewest moose in your house when the last card is played.\n\n" +
-               "\nHow to Play:\nAll players start the game with an invisible empty house in front of them on the playing surface." +
-               "\nAs the game progresses, players fill opponents' houses with rooms and then their rooms with moose" +
+               "\nHow to Play:\nAll opponents start the game with an invisible empty house in front of them on the playing surface." +
+               "\nAs the game progresses, opponents fill opponents' houses with rooms and then their rooms with moose" +
                "\nThe player to the left of the dealer goes first and play continues clockwise. Start each turn by drawing" +
                "\none card from the face down deck. Then take ONE of the following actions:" +
                "\n1. Play a There's a Moose in the House card on any opponent that doesn't already have one."+

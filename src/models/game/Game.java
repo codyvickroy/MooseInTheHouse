@@ -15,10 +15,10 @@ public class Game {
     private CardObserver cardObserver;
 
     /**
-     * Gets the number of players and deals to all players.
-     * Assumes a minimum of two players
+     * Gets the number of opponents and deals to all opponents.
+     * Assumes a minimum of two opponents
      *
-     * @param players players to add
+     * @param players opponents to add
      */
     public Game(Player[] players){
         Game.players = players;
@@ -33,7 +33,7 @@ public class Game {
      *  The meat of the game.
      *
      *  move history
-     *  points of all players
+     *  points of all opponents
      */
     public void gameLoop(){
 
@@ -55,28 +55,29 @@ public class Game {
                 updateHouseObserver();
 
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
-            }//end for all players
+            }//end for all opponents
         } while( ! gameOver());
 
         // TODO process stats here
     }
 
     private void processMove(Move move) {
-        if (move.getReceivingPlayerID() == Move.DISCARD_PILE) {
-            deck.discard(move.getCard());
-            updateDiscardPileObserver();
+        if (move != null) {
+            if (move.getReceivingPlayerID() == Move.DISCARD_PILE) {
+                deck.discard(move.getCard());
+                updateDiscardPileObserver();
+            } else {
+                players[move.getReceivingPlayerID()].setCardInHouse(move);
+            }
 
-        } else {
-            players[move.getReceivingPlayerID()].setCardInHouse(move);
+            System.out.println(move);
         }
-
-        System.out.println(move);
     }
 
     /**
      *  If the deck is empty and no moves are left end the game.
      *
-     * @return  true if all players have skipped their turn and the deck is empty
+     * @return  true if all opponents have skipped their turn and the deck is empty
      */
     private boolean gameOver() {
         if(deck.size() == 0){
@@ -196,10 +197,10 @@ public class Game {
     public static void main(String[] args){
 
         Player[] players = new Player[] {
-                new Bot(0),
-                new Bot(1),
-                new Bot(2),
-                new Bot(3)
+                new Bot(),
+                new Bot(),
+                new Bot(),
+                new Bot()
         };
 
         Game game = new Game(players);

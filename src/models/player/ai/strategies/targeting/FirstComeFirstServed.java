@@ -2,23 +2,23 @@ package models.player.ai.strategies.targeting;
 
 import models.player.Player;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
- * Created by brandt on 3/30/15.
+ * Prioritizes players in the same order they were presented.
  */
 public class FirstComeFirstServed extends TargetStrategy {
 
-    public FirstComeFirstServed(Player[] players) {
-        super(players);
-    }
-
     @Override
-    public int[] prioritize() {
-        int[] threats = new int[players.length];
+    public Queue<Integer> prioritize(Player[] opponents) {
 
-        for (int i = 0; i < players.length; i++) {
-            threats[i] = players[i].getID();
+        Queue<Integer> results = new LinkedList<Integer>();
+
+        for (Player player : opponents) {
+            results.add(player.getID());
         }
 
-        return threats;
+        return results;
     }
 }

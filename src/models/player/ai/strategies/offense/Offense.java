@@ -1,21 +1,21 @@
 package models.player.ai.strategies.offense;
 
-import models.player.Player;
 import models.player.ai.strategies.MoveStrategy;
 import models.player.ai.strategies.targeting.TargetStrategy;
 
 /**
- * Created by brandt on 3/27/15.
+ * Strategy that primarily considers the player's opponents and prioritizes them
+ * by using it's TargetStrategy
  */
-public abstract class Offense implements MoveStrategy {
+public abstract class Offense extends MoveStrategy {
 
-    protected Player[] players;
     protected TargetStrategy targetStrategy;
-    protected Player player;
 
-    public Offense(Player[] players, TargetStrategy targetStrategy, Player player) {
-        this.players = players;
+    public Offense(TargetStrategy targetStrategy) {
         this.targetStrategy = targetStrategy;
-        this.player = player;
+    }
+
+    public void setTargetStrategy(TargetStrategy targetStrategy) {
+        this.targetStrategy = targetStrategy;
     }
 }
