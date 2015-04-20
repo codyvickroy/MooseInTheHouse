@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class StandardAdaptive extends Behavior {
 
     public StandardAdaptive() {
-        super(new LinkedList<MoveStrategy>(), new ValueBasedDiscard());
+        super(new ValueBasedDiscard());
 
         addStrategy(new BruteForceOffense(new BestScoreFirst()));
         addStrategy(new BruteForceDefense());

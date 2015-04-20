@@ -2,6 +2,8 @@ package models.game;
 
 import models.player.Bot;
 import models.player.Player;
+import models.player.ai.behaviors.Easy;
+import remote.Remote;
 import view.CardObserver;
 
 import java.util.ArrayList;
@@ -35,21 +37,24 @@ public class Game {
      *  move history
      *  points of all opponents
      */
-    public void gameLoop(){
+    public void gameLoop(boolean reportStatistics) {
 
         int roundCount = 0;
 
-//        Remote.newGameID();
+        if (reportStatistics) {
+            Remote.newGameID();
 
-//        if ( ! Remote.initGame()) {
-//            System.err.println("Game init failed!");
-//        }
+            if (!Remote.initGame()) {
+                System.err.println("Game init failed!");
+            }
+        }
+
 
         do {// Main loop
 
             System.out.println("ROUND " + roundCount++);
 
-            for(int i = 0; i <= (players.length - 1) && (! gameOver()); i++){
+            for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
                 // Deal cards
                 players[i].addCardsToHand(deck.deal(1));
                 updateHandObserver();
@@ -60,11 +65,13 @@ public class Game {
                 updateHandObserver();
                 updateHouseObserver();
 
-//                Remote.uploadMove(playerMove);                         //Uploads move to game database
-//                Remote.uploadScores();
+                if (reportStatistics) {
+                    Remote.uploadMove(playerMove);                         //Uploads move to game database
+                    Remote.uploadScores();
+                }
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all opponents
-        } while( ! gameOver());
+        } while (!gameOver());
     }
 
     private void processMove(Move move) {
@@ -204,14 +211,14 @@ public class Game {
     public static void main(String[] args){
 
         Player[] players = new Player[] {
-                new Bot(),
-                new Bot(),
-                new Bot(),
-                new Bot()
+                new Bot(new Easy()),
+                new Bot(new Easy()),
+                new Bot(new Easy()),
+                new Bot(new Easy())
         };
 
         Game game = new Game(players);
 
-        game.gameLoop();
+        game.gameLoop(false);
     }
 }//end Game Class

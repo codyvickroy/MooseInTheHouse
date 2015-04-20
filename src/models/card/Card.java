@@ -48,8 +48,8 @@ public abstract class Card {
 
     public abstract boolean isDefensive();
 
-    public static boolean isMoose(Card card) {
-        return card.isBottomCard() && card.getCardClass() == CardClass.MOOSE;
+    public boolean isMoose() {
+        return isBottomCard() && getCardClass() == CardClass.MOOSE;
     }
 
     @Override

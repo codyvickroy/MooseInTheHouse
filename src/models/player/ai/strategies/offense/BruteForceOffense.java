@@ -22,7 +22,7 @@ public class BruteForceOffense extends Offense{
         Card[] hand = player.getHand();
         Queue<Integer> priorities = targetStrategy.prioritize(opponents);
 
-        for (Player opponent : opponents) {
+        for (int i = 0; i < priorities.size(); i++) {
             Player target = Player.findPlayerByID(opponents, priorities.remove());
 
             for (Card card : hand) {

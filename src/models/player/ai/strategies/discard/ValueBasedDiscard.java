@@ -15,11 +15,23 @@ public class ValueBasedDiscard extends Discard {
         Move move = new Move(player.getID(), hand[0], Move.DISCARD_PILE, 0);
 
         for (Card card : hand) {
-            if (move.getCard().getValue() > card.getValue()) {
+            if (discardValue(move.getCard()) > discardValue(card)) {
                 move = new Move(player.getID(), card, Move.DISCARD_PILE, 0);
             }
         }
 
         return move;
+    }
+
+    private int discardValue(Card card) {
+        if (card.isMoose()) {
+            return 0;
+        } else if (card.isBottomCard()) {
+            return 2;
+        } else if (card.isDefensive()) {
+            return 3;
+        } else {
+            return 1;
+        }
     }
 }

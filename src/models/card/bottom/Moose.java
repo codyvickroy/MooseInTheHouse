@@ -19,7 +19,7 @@ public class Moose extends BottomCard {
     @Override
     public int validate(Card[] house) {
         for (Card card : house) {
-            if (Card.isMoose(card)) {
+            if (card.isMoose()) {
                 return INVALID_POSITION;
             }
         }

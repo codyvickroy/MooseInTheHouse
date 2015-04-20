@@ -17,8 +17,8 @@ public class Behavior {
     private Iterator<MoveStrategy> strategyIterator;
     private Discard discard;
 
-    public Behavior(LinkedList<MoveStrategy> moveStrategies, Discard discard) {
-        this.moveStrategies = moveStrategies;
+    public Behavior(Discard discard) {
+        moveStrategies = new LinkedList<MoveStrategy>();
         this.discard = discard;
     }
 

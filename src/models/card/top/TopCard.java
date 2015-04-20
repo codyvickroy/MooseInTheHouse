@@ -29,7 +29,7 @@ public abstract class TopCard extends Card {
 
         for (int i = 0; i < house.length; i++) {
 
-            if (Card.isMoose(house[i])) {
+            if (house[i].isMoose()) {
                 mooseFound = true;
             }
 

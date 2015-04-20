@@ -21,7 +21,7 @@ public class Door extends TopCard {
     public int validate(Card[] house) {
 
         for (int i = 0; i < house.length; i++) {
-            if (house[i].isBottomCard() && !  Card.isMoose(house[i])) {
+            if (house[i].isBottomCard() && !  house[i].isMoose()) {
                 return i;
             }
         }
