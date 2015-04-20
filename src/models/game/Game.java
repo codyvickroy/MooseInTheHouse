@@ -2,7 +2,6 @@ package models.game;
 
 import models.player.Bot;
 import models.player.Player;
-import remote.Remote;
 import view.CardObserver;
 
 import java.util.ArrayList;
@@ -40,11 +39,11 @@ public class Game {
 
         int roundCount = 0;
 
-        Remote.newGameID();
+//        Remote.newGameID();
 
-        if ( ! Remote.initGame()) {
-            System.err.println("Game init failed!");
-        }
+//        if ( ! Remote.initGame()) {
+//            System.err.println("Game init failed!");
+//        }
 
         do {// Main loop
 
@@ -61,13 +60,11 @@ public class Game {
                 updateHandObserver();
                 updateHouseObserver();
 
-                Remote.uploadMove(playerMove);                         //Uploads move to game database
-                Remote.uploadScores();
+//                Remote.uploadMove(playerMove);                         //Uploads move to game database
+//                Remote.uploadScores();
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all opponents
         } while( ! gameOver());
-
-        // TODO process stats here
     }
 
     private void processMove(Move move) {
@@ -76,6 +73,7 @@ public class Game {
                 deck.discard(move.getCard());
                 updateDiscardPileObserver();
             } else {
+                // TODO check for moose and allow counter here
                 players[move.getReceivingPlayerID()].setCardInHouse(move);
             }
 
@@ -213,8 +211,6 @@ public class Game {
         };
 
         Game game = new Game(players);
-
-        System.out.println("Cards have been dealt.");
 
         game.gameLoop();
     }
