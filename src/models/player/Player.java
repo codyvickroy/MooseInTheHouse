@@ -79,6 +79,13 @@ public abstract class Player {
     }
 
 
+    /**
+     * Searches the supplied array of players for one that matches the supplied ID
+     *
+     * @param players   players to search
+     * @param id        target id
+     * @return          player with matching id or null
+     */
     public static Player findPlayerByID(Player[] players, int id) {
         for (Player player : players) {
             if (player.getID() == id) {
@@ -89,7 +96,13 @@ public abstract class Player {
         return null;
     }
 
-
+    /**
+     * Used to remove a card from player's hand after they make a move.
+     *
+     * This will remove the first instance found of the card.
+     *
+     * @param card  card type to remove
+     */
     protected void removeCardFromHand(Card card) {
         for (int i = 0; i < hand.size(); i++) {
             if (card.equals(hand.get(i))) {

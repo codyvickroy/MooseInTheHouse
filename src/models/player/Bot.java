@@ -3,7 +3,7 @@ package models.player;
 import models.game.Game;
 import models.game.Move;
 import models.player.ai.Behavior;
-import models.player.ai.behaviors.StandardAdaptive;
+import models.player.ai.difficulties.StandardAdaptive;
 
 /**
  * Created by brandt on 3/23/15.

@@ -2,7 +2,7 @@ package models.game;
 
 import models.player.Bot;
 import models.player.Player;
-import models.player.ai.behaviors.Easy;
+import models.player.ai.difficulties.Easy;
 import remote.Remote;
 import view.CardObserver;
 

@@ -1,4 +1,4 @@
-package models.player.ai.behaviors;
+package models.player.ai.difficulties;
 
 import models.player.Player;
 import models.player.ai.Behavior;
@@ -9,21 +9,20 @@ import models.player.ai.strategies.targeting.BotTargeting;
 import models.player.ai.strategies.targeting.HumanTargeting;
 
 /**
- * Consider offensive moves against Bots first then considers defensive moves
- * and finally offensive moves against players.
+ * Target player first then defend then attack other bots
  */
-public class Easy extends Behavior {
+public class TotallyUnfair extends Behavior {
 
-    public Easy() {
+    public TotallyUnfair() {
         super(new ValueBasedDiscard());
     }
 
     @Override
     public void refresh(Player player, Player[] opponents) {
 
-        addStrategy(new BruteForceOffense(new BotTargeting()));
-        addStrategy(new BruteForceDefense());
         addStrategy(new BruteForceOffense(new HumanTargeting()));
+        addStrategy(new BruteForceDefense());
+        addStrategy(new BruteForceOffense(new BotTargeting()));
 
         super.refresh(player, opponents);
     }

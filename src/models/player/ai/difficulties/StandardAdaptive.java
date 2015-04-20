@@ -1,4 +1,4 @@
-package models.player.ai.behaviors;
+package models.player.ai.difficulties;
 
 import models.player.Player;
 import models.player.ai.Behavior;
