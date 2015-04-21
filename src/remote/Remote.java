@@ -14,7 +14,8 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.Scanner;
 
-public class Remote {
+public class Remote 
+{
 
     public static Boolean initGame()
     {
@@ -36,6 +37,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
 
         return Boolean.parseBoolean(inputLine);
@@ -89,6 +91,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
         return Boolean.parseBoolean(inputLine);
     }
@@ -112,6 +115,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
         return Boolean.parseBoolean(inputLine);
     }
@@ -129,6 +133,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
         return ID;
     }
@@ -187,8 +192,82 @@ public class Remote {
         catch (Exception e)
         {
             error(e);
+            return false;
         }
         return "err";
+    }
+    static Boolean resetPassword(String user, String email)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+           String site = getMasterServer() + "passreset.php?u=";
+            site +=user;
+            site +="&e=";
+            site +=email;
+            //System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            //System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+            error(e);
+            return false;
+        }
+
+        return Boolean.parseBoolean(inputLine);
+    }
+    static Boolean validUser(String user, String password)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+           String site = getMasterServer() + "chkuser.php?u=";
+            site +=user;
+            site +="&h=";
+            site +=hash;
+            //System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            //System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+            error(e);
+            return false;
+        }
+
+        return Boolean.parseBoolean(inputLine);
+    }
+    public static Boolean registerUser(String user, String password, String email)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+           String site = getMasterServer() + "register.php?u=";
+            site +=user;
+            site +="&h=";
+            site +=hash;
+            site +="&e=";
+            site +=email;
+            //System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            //System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+           error(e);
+           return false;
+        }
+        return Boolean.parseBoolean(inputLine);
     }
     public static void error(Exception e)
     {
