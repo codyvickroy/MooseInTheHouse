@@ -215,7 +215,7 @@ public class Remote {
 
         return Boolean.parseBoolean(inputLine);
     }
-    public static Boolean registerUser(String user, String password)
+    public static Boolean registerUser(String user, String password, String email)
     {
         String inputLine ="";
         String hash = sha1(password);
@@ -224,6 +224,8 @@ public class Remote {
             site +=user;
             site +="&h=";
             site +=hash;
+            site +="&e=";
+            site +=email;
             //System.out.println(site);
             URL web = new URL(site); 
             URLConnection gate = web.openConnection(); 
