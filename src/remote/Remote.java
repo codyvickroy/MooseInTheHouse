@@ -133,7 +133,7 @@ public class Remote
         catch(Exception e)
         {
             error(e);
-            return false;
+            
         }
         return ID;
     }
@@ -192,7 +192,7 @@ public class Remote
         catch (Exception e)
         {
             error(e);
-            return false;
+            
         }
         return "err";
     }
