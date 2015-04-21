@@ -26,8 +26,8 @@ public class Game {
         Game.players = players;
         deck = new Deck();
 
-        for (int i = 0; i < Game.players.length; i++) {
-            Game.players[i].addCardsToHand(deck.deal(4));
+        for (int i = 0; i < players.length; i++) {
+            players[i].addCardsToHand(deck.deal(4));
         }
     }//end constructor
 
@@ -49,7 +49,6 @@ public class Game {
             }
         }
 
-
         do {// Main loop
 
             System.out.println("ROUND " + roundCount++);
@@ -69,6 +68,7 @@ public class Game {
                     Remote.uploadMove(playerMove);                         //Uploads move to game database
                     Remote.uploadScores();
                 }
+
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
             }//end for all opponents
         } while (!gameOver());
@@ -81,7 +81,7 @@ public class Game {
                 updateDiscardPileObserver();
             } else {
                 // TODO check for moose and allow counter here
-                players[move.getReceivingPlayerID()].setCardInHouse(move);
+                getPlayerByID(move.getReceivingPlayerID()).setCardInHouse(move);
             }
 
             System.out.println(move);
@@ -213,12 +213,15 @@ public class Game {
         Player[] players = new Player[] {
                 new Bot(new Easy()),
                 new Bot(new Easy()),
-                new Bot(new Easy()),
                 new Bot(new Easy())
         };
 
         Game game = new Game(players);
 
         game.gameLoop(false);
+    }
+
+    public static Player getHuman() {
+        return players[0];
     }
 }//end Game Class

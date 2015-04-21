@@ -111,4 +111,17 @@ public abstract class Player {
             }
         }
     }
+
+    /**
+     * Removes card from player's house
+     * @param card
+     */
+    public void removeCardFromHouse(Card card) {
+        for (int i = 0; i < house.size(); i++) {
+            if (card.equals(house.get(i))) {
+                house.remove(i);
+                return;
+            }
+        }
+     }
 }

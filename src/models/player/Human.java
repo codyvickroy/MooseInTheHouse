@@ -4,13 +4,11 @@ import models.card.Card;
 import models.game.Game;
 import models.game.Move;
 
-import java.util.ArrayList;
-
 public class Human extends Player {
     private boolean takingTurn;
     private Move move;
 
-    public Human(ArrayList<Card> hand) {
+    public Human() {
         takingTurn = false;
     }
 
