@@ -9,7 +9,6 @@ import java.util.Arrays;
 public abstract class Player {
 
     private static int idCounter = 0;
-    private int points = 0;
     private int id;
 
     protected ArrayList<Card> hand = new ArrayList<Card>();
@@ -44,10 +43,6 @@ public abstract class Player {
      * @param card  card to be played
      */
     public void setCardInHouse(int index, Card card) {
-        if ( ! card.isBottomCard() && ! card.isDefensive()) {
-            points++;
-        }
-
         if (index >= house.size())
             house.add(card);
         else
@@ -62,7 +57,17 @@ public abstract class Player {
         return id;
     }
 
+    /**
+     * Counts player points
+     * @return  total number of occupied rooms
+     */
     public int getPoints() {
+        int points = 0;
+        for (Card card : house) {
+            if ( ! card.isBottomCard() && card.getCardClass() != null) {
+                points++;
+            }
+        }
         return points;
     }
 
@@ -73,11 +78,6 @@ public abstract class Player {
     public Card[] getHouse() {
         return house.toArray(new Card[house.size()]);
     }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
 
     /**
      * Searches the supplied array of players for one that matches the supplied ID
