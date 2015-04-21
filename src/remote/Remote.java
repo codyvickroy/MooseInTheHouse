@@ -199,7 +199,7 @@ public class Remote
     static Boolean resetPassword(String user, String email)
     {
         String inputLine ="";
-        String hash = sha1(password);
+       
         try{
            String site = getMasterServer() + "passreset.php?u=";
             site +=user;
