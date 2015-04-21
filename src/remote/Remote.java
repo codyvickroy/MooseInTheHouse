@@ -200,12 +200,12 @@ public class Remote {
             site +=user;
             site +="&h=";
             site +=hash;
-            System.out.println(site);
+            //System.out.println(site);
             URL web = new URL(site); 
             URLConnection gate = web.openConnection(); 
             BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
             inputLine = in.readLine();
-            System.out.println(inputLine);
+            //System.out.println(inputLine);
         }
         catch(Exception e)
         {
@@ -229,7 +229,7 @@ public class Remote {
             URLConnection gate = web.openConnection(); 
             BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
             inputLine = in.readLine();
-            System.out.println(inputLine);
+            //System.out.println(inputLine);
         }
         catch(Exception e)
         {
