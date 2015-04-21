@@ -90,7 +90,9 @@ public class GameGUI extends JFrame {
         nMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
-                //CODE FOR HOW TO START A NEW GAME
+                String[] buttons = {"Hard", "Medium", "Easy"};
+                int messageType = JOptionPane.QUESTION_MESSAGE;
+                JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
             }
         });
 
