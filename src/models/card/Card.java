@@ -7,7 +7,7 @@ import javax.swing.*;
 public abstract class Card {
 
     public static enum CardClass {
-        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN;
+        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN, BAIT;
     }
 
     private int value;
@@ -47,6 +47,10 @@ public abstract class Card {
     public abstract boolean isBottomCard();
 
     public abstract boolean isDefensive();
+    
+    public boolean isBait(){
+        return false;
+    }
 
     public boolean isMoose() {
         return isBottomCard() && getCardClass() == CardClass.MOOSE;
