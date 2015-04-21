@@ -120,4 +120,15 @@ public class Deck {
         discard.add(card);
     }
 
+    /**
+     * Returns the card at the top of the discard pile or null if it is empty
+     */
+    public Card getTopDiscard() {
+        if (discard.size() > 0) {
+            return discard.get(discard.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
 }//end Deck Class

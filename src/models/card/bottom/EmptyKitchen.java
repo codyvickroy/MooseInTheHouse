@@ -5,6 +5,6 @@ package models.card.bottom;
  */
 public class EmptyKitchen extends BottomCard {
     public EmptyKitchen() {
-        super(CardClass.KITCHEN, "empty_in_kitchen.png", 2);
+        super(CardClass.KITCHEN, "kitchen.png", 2);
     }
 }

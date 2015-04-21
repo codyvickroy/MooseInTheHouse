@@ -102,7 +102,11 @@ public abstract class Card {
      * Returns an ImageIcon of the back of a card.
      * @return  card back image icon
      */
-    public ImageIcon getCardBack() {
-        return new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + "back.png"));
+    public static ImageIcon getCardBack() {
+        return new ImageIcon(Card.class.getResource(CARD_IMAGE_PATH + "back.png"));
+    }
+
+    public static ImageIcon getEmptyCard() {
+        return new ImageIcon (Card.class.getResource(CARD_IMAGE_PATH + "empty.png"));
     }
 }

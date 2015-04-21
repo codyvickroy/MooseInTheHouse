@@ -5,7 +5,7 @@ package models.card.top;
  */
 public class MooseInBedroom extends TopCard {
     public MooseInBedroom() {
-        super(CardClass.BEDROOM, "moose_in_bedroom.png", 1);
+        super(CardClass.BEDROOM, "mooseinbedroom.png", 1);
     }
 
     @Override

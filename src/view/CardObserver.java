@@ -21,4 +21,9 @@ public interface CardObserver {
      * Updates the view with the contents of the discard pile.
      */
     public void updateDiscardPile();
+
+    /**
+     * Updates the view with each user's points.
+     */
+    public void updatePoints();
 }
