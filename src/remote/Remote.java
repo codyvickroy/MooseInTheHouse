@@ -36,6 +36,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
 
         return Boolean.parseBoolean(inputLine);
@@ -89,6 +90,7 @@ public class Remote {
         catch(Exception e)
         {
             error(e);
+            return false;
         }
         return Boolean.parseBoolean(inputLine);
     }
