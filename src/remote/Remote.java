@@ -190,6 +190,52 @@ public class Remote {
         }
         return "err";
     }
+    static Boolean validUser(String user, String password)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+            String site = "http://localhost/chkuser.php?u=";
+            site +=user;
+            site +="&h=";
+            site +=hash;
+            System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+            error(e);
+            return false;
+        }
+
+        return Boolean.parseBoolean(inputLine);
+    }
+    public static Boolean registerUser(String user, String password)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+            String site = "http://localhost/register.php?u=";
+            site +=user;
+            site +="&h=";
+            site +=hash;
+            //System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+           error(e);
+        }
+        return Boolean.parseBoolean(inputLine);
+    }
     public static void error(Exception e)
     {
         try{
