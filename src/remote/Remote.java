@@ -14,7 +14,8 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.Scanner;
 
-public class Remote {
+public class Remote 
+{
 
     public static Boolean initGame()
     {
@@ -195,12 +196,36 @@ public class Remote {
         }
         return "err";
     }
+    static Boolean resetPassword(String user, String email)
+    {
+        String inputLine ="";
+        String hash = sha1(password);
+        try{
+           String site = getMasterServer() + "passreset.php?u=";
+            site +=user;
+            site +="&e=";
+            site +=email;
+            //System.out.println(site);
+            URL web = new URL(site); 
+            URLConnection gate = web.openConnection(); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            //System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+            error(e);
+            return false;
+        }
+
+        return Boolean.parseBoolean(inputLine);
+    }
     static Boolean validUser(String user, String password)
     {
         String inputLine ="";
         String hash = sha1(password);
         try{
-            String site = "http://localhost/chkuser.php?u=";
+           String site = getMasterServer() + "chkuser.php?u=";
             site +=user;
             site +="&h=";
             site +=hash;
@@ -224,7 +249,7 @@ public class Remote {
         String inputLine ="";
         String hash = sha1(password);
         try{
-            String site = "http://localhost/register.php?u=";
+           String site = getMasterServer() + "register.php?u=";
             site +=user;
             site +="&h=";
             site +=hash;
