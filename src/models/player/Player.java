@@ -103,7 +103,7 @@ public abstract class Player {
      *
      * @param card  card type to remove
      */
-    protected void removeCardFromHand(Card card) {
+    public void removeCardFromHand(Card card) {
         for (int i = 0; i < hand.size(); i++) {
             if (card.equals(hand.get(i))) {
                 hand.remove(i);

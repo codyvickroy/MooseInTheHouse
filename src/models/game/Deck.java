@@ -22,37 +22,91 @@ public class Deck {
 
     /*
      * Default constructor builds a deck containing,
-     * 20 Empty Room cards (5 each of Kitchen, Bathroom, Living Room
-	 * and Bedroom)
-	 * 20 Moose in the Room cards (same as above, but with Moose)
-	 * 10 Theres a Moose in the House cards
-	 * 5 Door cards
-	 * 3 Moose Bait cards
+     * 24 Empty Room cards (5 each of Kitchen, Bathroom, Living Room
+     * and Bedroom)
+     * 24 Moose in the Room cards (same as above, but with Moose)
+     * 7 Theres a Moose in the House cards
+     * 5 Door cards
+     * 3 Moose Bait cards
      */
     Deck(){
-        for(int i = 1 ; i <= 5 ; i++){                                  //Loops though 5 times so it adds a card of each type each pass
+    
 
-            cards.add(new EmptyBathroom());                             //Empty room cards
-            cards.add(new EmptyLivingRoom());
-            cards.add(new EmptyBedroom());
-            cards.add(new EmptyKitchen());
+        cards.add(new EmptyBathroom());                             //Empty room cards
+        cards.add(new EmptyBathroom());
+        cards.add(new EmptyBathroom());
+        cards.add(new EmptyBathroom());
+        cards.add(new EmptyBathroom());
+        cards.add(new EmptyBathroom());
+        
+        cards.add(new EmptyLivingRoom());
+        cards.add(new EmptyLivingRoom());
+        cards.add(new EmptyLivingRoom());
+        cards.add(new EmptyLivingRoom());
+        cards.add(new EmptyLivingRoom());
+        cards.add(new EmptyLivingRoom());
+        
+        cards.add(new EmptyBedroom());
+        cards.add(new EmptyBedroom());
+        cards.add(new EmptyBedroom());
+        cards.add(new EmptyBedroom());
+        cards.add(new EmptyBedroom());
+        cards.add(new EmptyBedroom());
+        
+        cards.add(new EmptyKitchen());
+        cards.add(new EmptyKitchen());
+        cards.add(new EmptyKitchen());
+        cards.add(new EmptyKitchen());
+        cards.add(new EmptyKitchen());
+        cards.add(new EmptyKitchen());
+        
 
-            cards.add(new MooseInBathroom());                          //moose room cards
-            cards.add(new MooseInLivingRoom());
-            cards.add(new MooseInBedroom());
-            cards.add(new MooseInKitchen());
+        cards.add(new MooseInBathroom());                          //moose room cards
+        cards.add(new MooseInBathroom());
+        cards.add(new MooseInBathroom());
+        cards.add(new MooseInBathroom());
+        cards.add(new MooseInBathroom());
+        cards.add(new MooseInBathroom());
+        
+        cards.add(new MooseInLivingRoom());
+        cards.add(new MooseInLivingRoom());
+        cards.add(new MooseInLivingRoom());
+        cards.add(new MooseInLivingRoom());
+        cards.add(new MooseInLivingRoom());
+        cards.add(new MooseInLivingRoom());
+        
+        cards.add(new MooseInBedroom());
+        cards.add(new MooseInBedroom());
+        cards.add(new MooseInBedroom());
+        cards.add(new MooseInBedroom());
+        cards.add(new MooseInBedroom());
+        cards.add(new MooseInBedroom());
+        
+        cards.add(new MooseInKitchen());
+        cards.add(new MooseInKitchen());
+        cards.add(new MooseInKitchen());
+        cards.add(new MooseInKitchen());
+        cards.add(new MooseInKitchen());
+        cards.add(new MooseInKitchen());
 
-            cards.add(new Moose());                                    //creates two moose cards per loop though
-            cards.add(new Moose());
+        cards.add(new Moose());                                    //creates two moose cards per loop though
+        cards.add(new Moose());
+        cards.add(new Moose());
+        cards.add(new Moose());
+        cards.add(new Moose());
+        cards.add(new Moose());
+        cards.add(new Moose());
+       
+        
+        cards.add(new Door());                                     //Door cards
+        cards.add(new Door()); 
+        cards.add(new Door()); 
+        cards.add(new Door()); 
+        cards.add(new Door()); 
 
-            cards.add(new Door());                                     //Door cards
-
-        }//end for i <= 5
-
-
-        for(int i = 1 ; i <= 3 ; i++){                                //seperate loop for Moose Bait beacuse there is only 3
-            cards.add(new MooseBait());
-        }//end for i <= 3
+        cards.add(new MooseBait());
+        cards.add(new MooseBait());
+        cards.add(new MooseBait());
 
         shuffle();
     } //end for i <= 5}//end Deck

@@ -6,6 +6,10 @@ import models.player.ai.difficulties.Easy;
 import remote.Remote;
 import view.CardObserver;
 
+import models.card.Card;
+import models.card.bottom.*;
+import models.card.top.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +50,6 @@ public class Game {
 
             if (!Remote.initGame()) {
                 System.err.println("Game init failed!");
-            }
         }
 
         do {// Main loop
@@ -75,15 +78,30 @@ public class Game {
     }
 
     private void processMove(Move move) {
+        moveHistory.add(move);                    //adds the move to our move history for stats
+        
         if (move != null) {
             if (move.getReceivingPlayerID() == Move.DISCARD_PILE) {
                 deck.discard(move.getCard());
                 updateDiscardPileObserver();
             } else {
-                // TODO check for moose and allow counter here
-                getPlayerByID(move.getReceivingPlayerID()).setCardInHouse(move);
-            }
-
+                players[move.getReceivingPlayerID()].setCardInHouse(move);
+                Player recievingPlayer = players[move.getReceivingPlayerID()];
+                Card pHand[] = recievingPlayer.getHand();
+                if((! move.getCard().isBottomCard()) && (move.getCard().getCardClass() != null)){
+                    boolean foundBait = false;
+                    for(int i = 0 ; (i <= pHand.length - 1) && (! foundBait) ; i++){
+                        if(pHand[i].isBait()){
+                            players[move.getReceivingPlayerID()].setCardInHouse(move);
+                            Move baitMove = new Move(move.getReceivingPlayerID(), new MooseBait(), move.getCardPlayerID(), move.getHousePosition());
+                            moveHistory.add(baitMove); 
+                            recievingPlayer.removeCardFromHand(new MooseBait());
+                            recievingPlayer.addCardsToHand(deck.deal(1));
+                            foundBait = true;
+                        }
+                    }
+                }
+            } 
             System.out.println(move);
         }
     }
