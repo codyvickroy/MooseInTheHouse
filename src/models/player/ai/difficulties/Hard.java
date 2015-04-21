@@ -11,9 +11,9 @@ import models.player.ai.strategies.targeting.HumanTargeting;
 /**
  * Target player first then defend then attack other bots
  */
-public class TotallyUnfair extends Behavior {
+public class Hard extends Behavior {
 
-    public TotallyUnfair() {
+    public Hard() {
         super(new ValueBasedDiscard());
     }
 

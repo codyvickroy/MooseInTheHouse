@@ -43,7 +43,7 @@ public class Human extends Player {
      * @param playerID  player to receive card
      * @return          validity of move
      */
-    public boolean setMove(Card card, int playerID) {
+    public void setMove(Card card, int playerID) {
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
@@ -53,8 +53,6 @@ public class Human extends Player {
                 takingTurn = false;
             }
         }
-
-        return move != null;
     }
 
     public boolean isTakingTurn() {

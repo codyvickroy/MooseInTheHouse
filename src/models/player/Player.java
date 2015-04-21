@@ -79,6 +79,8 @@ public abstract class Player {
         return house.toArray(new Card[house.size()]);
     }
 
+    public abstract void setMove(Card card, int playerID);
+
     /**
      * Searches the supplied array of players for one that matches the supplied ID
      *

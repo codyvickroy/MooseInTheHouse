@@ -2,8 +2,10 @@ package view;
 
 import models.card.Card;
 import models.game.Game;
+import models.player.Bot;
 import models.player.Human;
 import models.player.Player;
+import models.player.ai.Behavior;
 
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
@@ -54,10 +56,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
 
     //Define the labels of the cards for the game
-    JLabel playercard1;
-    JLabel playercard2;
-    JLabel playercard3;
-    JLabel playercard4;
+    final int HAND_SIZE = 4;
+    final int HOUSE_SIZE = 4;
+
+    JLabel[] playerHand = new JLabel[HAND_SIZE];
     JLabel c1card1;
     JLabel c1card2;
     JLabel c1card3;
@@ -70,10 +72,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
     JLabel c3card2;
     JLabel c3card3;
     JLabel c3card4;
-    JLabel c1house1;
-    JLabel c1house2;
-    JLabel c1house3;
-    JLabel c1house4;
+    JLabel[] comp1House = new JLabel[HOUSE_SIZE];
     JLabel c2house1;
     JLabel c2house2;
     JLabel c2house3;
@@ -127,14 +126,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
 
         //Add card areas to each JPanel player house
-        c1house1 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
-        c1house2 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
-        c1house3 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
-        c1house4 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
-        c1housePanel.add(c1house1);
-        c1housePanel.add(c1house2);
-        c1housePanel.add(c1house3);
-        c1housePanel.add(c1house4);
+        for (int i = 0; i < comp1House.length; i++) {
+            comp1House[i] = new JLabel(Card.getEmptyCard());
+            c1housePanel.add(comp1House[i]);
+        }
 
         c2house1 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
         c2house1.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
@@ -205,20 +200,16 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         c3cardPanel.add(c3card3);
         c3cardPanel.add(c3card4);
 
-        playercard1 = new JLabel(new ImageIcon(getClass().getResource("/cards/door.png")));
-        playercard2 = new JLabel(new ImageIcon(getClass().getResource("/cards/kitchen.png")));
-        playercard3 = new JLabel(new ImageIcon(getClass().getResource("/cards/bath.png")));
-        playercard4 = new JLabel(new ImageIcon(getClass().getResource("/cards/mooseinhouse.png")));
-        pcardPanel.add(playercard1);
-        pcardPanel.add(playercard2);
-        pcardPanel.add(playercard3);
-        pcardPanel.add(playercard4);
+        for (int i = 0; i < playerHand.length; i++) {
+            playerHand[i] = new JLabel(Card.getEmptyCard());
+            pcardPanel.add(playerHand[i]);
+        }
 
-        deck = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        deck = new JLabel(Card.getCardBack());
         deck.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         deckPanel.add(deck);
 
-        discard = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        discard = new JLabel(Card.getEmptyCard());
         discard.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         deckPanel.add(discard);
 
@@ -287,10 +278,33 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         mithFrame.setContentPane(this);
         mithFrame.setPreferredSize(new Dimension(1200,900));
 
+        newGame(4, 1);
+
         //Display
         mithFrame.pack();
         mithFrame.setVisible(true);
+    }
 
+    /**
+     * Call to start a new game
+     * @param totalPlayerCount
+     * @param difficultyLevel
+     */
+    public void newGame(int totalPlayerCount, int difficultyLevel) {
+
+        Player[] players = new Player[totalPlayerCount];
+        players[0] = new Human();
+
+        // Get AI level from game
+        Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
+
+        // Create bots with specified difficulty level
+        for (int i = 1; i < totalPlayerCount; i++) {
+            players[i] = new Bot(aiDifficulty);
+        }
+
+        game = new Game(players);
+        game.setCardObserver(this);
     }
 
     public static void main(String[] args){
@@ -451,7 +465,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
     public void updateHands(){
         Player[] players = Game.getPlayers();
 
-        for(int i = 0; i < players.length; i++){
+        for(int i = 0; i < 1; i++){
             Card[] hand = players[i].getHand();
             for(int j = 0; j < hand.length; j++){
                 ImageIcon cardImage;
@@ -463,7 +477,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                     cardImage = hand[j].getCardBack();
                 }
 
-                // TODO display card in hand
+                playerHand[j].setIcon(cardImage);
             }
         }
     }
@@ -492,7 +506,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
             deckImage = Card.getEmptyCard();
         }
 
-        // TODO display deck
+        deck.setIcon(deckImage);
     }
 
     @Override
@@ -507,8 +521,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
             discardImage = Card.getEmptyCard();
         }
 
-        // TODO display discarded card
-
+        discard.setIcon(discardImage);
     }
 
     @Override

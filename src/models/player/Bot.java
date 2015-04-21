@@ -1,5 +1,6 @@
 package models.player;
 
+import models.card.Card;
 import models.game.Game;
 import models.game.Move;
 import models.player.ai.Behavior;
@@ -41,6 +42,11 @@ public class Bot extends Player {
         }
 
         return move;
+    }
+
+    @Override
+    public void setMove(Card card, int playerID) {
+
     }
 
     public void setBehavior(Behavior behavior) {

@@ -1,14 +1,12 @@
 package models.game;
 
+import models.card.Card;
+import models.card.top.MooseBait;
 import models.player.Bot;
 import models.player.Player;
 import models.player.ai.difficulties.Easy;
 import remote.Remote;
 import view.CardObserver;
-
-import models.card.Card;
-import models.card.bottom.*;
-import models.card.top.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class Game {
      *
      * @param players opponents to add
      */
-    public Game(Player[] players){
+    public Game(Player[] players) {
         Game.players = players;
         deck = new Deck();
 
@@ -36,10 +34,10 @@ public class Game {
     }//end constructor
 
     /**
-     *  The meat of the game.
-     *
-     *  move history
-     *  points of all opponents
+     * The meat of the game.
+     * <p/>
+     * move history
+     * points of all opponents
      */
     public void gameLoop(boolean reportStatistics) {
 
@@ -50,36 +48,37 @@ public class Game {
 
             if (!Remote.initGame()) {
                 System.err.println("Game init failed!");
+            }
+
+            do {// Main loop
+
+                System.out.println("ROUND " + roundCount++);
+
+                for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
+                    // Deal cards
+                    players[i].addCardsToHand(deck.deal(1));
+                    updateHandObserver();
+                    updateDeckObserver();
+
+                    Move playerMove = players[i].makeMove();          //player makes the move
+                    processMove(playerMove);
+                    updateHandObserver();
+                    updateHouseObserver();
+
+                    if (reportStatistics) {
+                        Remote.uploadMove(playerMove);                         //Uploads move to game database
+                        Remote.uploadScores();
+                    }
+
+                    moveHistory.add(playerMove);                    //adds the move to our move history for stats
+                }//end for all opponents
+            } while (!gameOver());
         }
-
-        do {// Main loop
-
-            System.out.println("ROUND " + roundCount++);
-
-            for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
-                // Deal cards
-                players[i].addCardsToHand(deck.deal(1));
-                updateHandObserver();
-                updateDeckObserver();
-
-                Move playerMove = players[i].makeMove();          //player makes the move
-                processMove(playerMove);
-                updateHandObserver();
-                updateHouseObserver();
-
-                if (reportStatistics) {
-                    Remote.uploadMove(playerMove);                         //Uploads move to game database
-                    Remote.uploadScores();
-                }
-
-                moveHistory.add(playerMove);                    //adds the move to our move history for stats
-            }//end for all opponents
-        } while (!gameOver());
     }
 
     private void processMove(Move move) {
         moveHistory.add(move);                    //adds the move to our move history for stats
-        
+
         if (move != null) {
             if (move.getReceivingPlayerID() == Move.DISCARD_PILE) {
                 deck.discard(move.getCard());
@@ -88,33 +87,34 @@ public class Game {
                 players[move.getReceivingPlayerID()].setCardInHouse(move);
                 Player recievingPlayer = players[move.getReceivingPlayerID()];
                 Card pHand[] = recievingPlayer.getHand();
-                if((! move.getCard().isBottomCard()) && (move.getCard().getCardClass() != null)){
+                if ((!move.getCard().isBottomCard()) && (move.getCard().getCardClass() != null)) {
                     boolean foundBait = false;
-                    for(int i = 0 ; (i <= pHand.length - 1) && (! foundBait) ; i++){
-                        if(pHand[i].isBait()){
+                    for (int i = 0; (i <= pHand.length - 1) && (!foundBait); i++) {
+                        if (pHand[i].isBait()) {
                             players[move.getReceivingPlayerID()].setCardInHouse(move);
                             Move baitMove = new Move(move.getReceivingPlayerID(), new MooseBait(), move.getCardPlayerID(), move.getHousePosition());
-                            moveHistory.add(baitMove); 
+                            moveHistory.add(baitMove);
                             recievingPlayer.removeCardFromHand(new MooseBait());
                             recievingPlayer.addCardsToHand(deck.deal(1));
                             foundBait = true;
                         }
                     }
                 }
-            } 
+            }
             System.out.println(move);
         }
+        updatePointsObserver();
     }
 
     /**
-     *  If the deck is empty and no moves are left end the game.
+     * If the deck is empty and no moves are left end the game.
      *
-     * @return  true if all opponents have skipped their turn and the deck is empty
+     * @return true if all opponents have skipped their turn and the deck is empty
      */
     private boolean gameOver() {
-        if(deck.size() == 0){
+        if (deck.size() == 0) {
             for (int i = 0; i < players.length; i++) {
-                if ( ! Move.skipped(moveHistory.get(moveHistory.size() - i - 1))) {
+                if (!Move.skipped(moveHistory.get(moveHistory.size() - i - 1))) {
                     return false;
                 }
             }
@@ -127,8 +127,8 @@ public class Game {
     /**
      * Returns the player with the given id.
      *
-     * @param id    id of desired player
-     * @return      player with matching id if found
+     * @param id id of desired player
+     * @return player with matching id if found
      */
     public static Player getPlayerByID(int id) {
         for (Player player : players) {
@@ -145,7 +145,7 @@ public class Game {
 
     public static Player[] getPlayersExcept(int id) {
 
-        Player[] returnPlayers = new Player[players.length -1];
+        Player[] returnPlayers = new Player[players.length - 1];
         int offset = 0;
 
         for (int i = 0; i < players.length; i++) {
@@ -226,9 +226,14 @@ public class Game {
             cardObserver.updateDiscardPile();
     }
 
-    public static void main(String[] args){
+    private void updatePointsObserver() {
+        if (cardObserver != null)
+            cardObserver.updatePoints();
+    }
 
-        Player[] players = new Player[] {
+    public static void main(String[] args) {
+
+        Player[] players = new Player[]{
                 new Bot(new Easy()),
                 new Bot(new Easy()),
                 new Bot(new Easy())
