@@ -35,7 +35,7 @@ public class GameGUI extends JFrame {
 
         //Submenu items, under file
         JMenuItem nMenuItem = new JMenuItem("New Game");
-        JMenuItem lMenuItem = new JMenu("Login");
+        JMenuItem lMenuItem = new JMenuItem("Login");
         JMenuItem rMenuItem = new JMenuItem("Register");
         JMenuItem sMenuItem = new JMenuItem("Game Statistics");
         JMenuItem eMenuItem = new JMenuItem("Exit Game");
