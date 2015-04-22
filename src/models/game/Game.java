@@ -28,9 +28,13 @@ public class Game {
         Game.players = players;
         deck = new Deck();
 
+
         for (int i = 0; i < players.length; i++) {
             players[i].addCardsToHand(deck.deal(4));
         }
+
+
+        gameLoop(false);
     }//end constructor
 
     /**
@@ -49,31 +53,31 @@ public class Game {
             if (!Remote.initGame()) {
                 System.err.println("Game init failed!");
             }
-
-            do {// Main loop
-
-                System.out.println("ROUND " + roundCount++);
-
-                for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
-                    // Deal cards
-                    players[i].addCardsToHand(deck.deal(1));
-                    updateHandObserver();
-                    updateDeckObserver();
-
-                    Move playerMove = players[i].makeMove();          //player makes the move
-                    processMove(playerMove);
-                    updateHandObserver();
-                    updateHouseObserver();
-
-                    if (reportStatistics) {
-                        Remote.uploadMove(playerMove);                         //Uploads move to game database
-                        Remote.uploadScores();
-                    }
-
-                    moveHistory.add(playerMove);                    //adds the move to our move history for stats
-                }//end for all opponents
-            } while (!gameOver());
         }
+
+        do {// Main loop
+
+            System.out.println("ROUND " + roundCount++);
+
+            for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
+                // Deal cards
+                players[i].addCardsToHand(deck.deal(1));
+                updateHandObserver();
+                updateDeckObserver();
+
+                Move playerMove = players[i].makeMove();          //player makes the move
+                processMove(playerMove);
+                updateHandObserver();
+                updateHouseObserver();
+
+                if (reportStatistics) {
+                    Remote.uploadMove(playerMove);                         //Uploads move to game database
+                    Remote.uploadScores();
+                }
+
+                moveHistory.add(playerMove);                    //adds the move to our move history for stats
+            }//end for all opponents
+        } while (!gameOver());
     }
 
     private void processMove(Move move) {
@@ -232,7 +236,6 @@ public class Game {
     }
 
     public static void main(String[] args) {
-
         Player[] players = new Player[]{
                 new Bot(new Easy()),
                 new Bot(new Easy()),
@@ -240,8 +243,6 @@ public class Game {
         };
 
         Game game = new Game(players);
-
-        game.gameLoop(false);
     }
 
     public static Player getHuman() {

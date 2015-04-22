@@ -9,7 +9,7 @@ import java.util.Arrays;
 public abstract class Player {
 
     private static int idCounter = 0;
-    private int id;
+    private int id, points;
 
     protected ArrayList<Card> hand = new ArrayList<Card>();
     protected ArrayList<Card> house = new ArrayList<Card>();
@@ -20,7 +20,7 @@ public abstract class Player {
         id = idCounter++;
         hand = new ArrayList<Card>();
         house = new ArrayList<Card>();
-
+        points = 0;
     }
 
     public abstract Move makeMove();
@@ -52,7 +52,12 @@ public abstract class Player {
     }
 
     public void setCardInHouse(Move move) {
-        setCardInHouse(move.getHousePosition(), move.getCard());
+        if ( ! move.getCard().isBottomCard() && move.getCard().getCardClass() != null) {
+            points++;
+            house.remove(move.getHousePosition());
+        } else {
+            setCardInHouse(move.getHousePosition(), move.getCard());
+        }
     }
 
     public int getID() {
@@ -64,12 +69,6 @@ public abstract class Player {
      * @return  total number of occupied rooms
      */
     public int getPoints() {
-        int points = 0;
-        for (Card card : house) {
-            if ( ! card.isBottomCard() && card.getCardClass() != null) {
-                points++;
-            }
-        }
         return points;
     }
 
