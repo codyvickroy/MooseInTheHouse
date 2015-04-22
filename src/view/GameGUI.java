@@ -1,5 +1,7 @@
 package view;
 
+import remote.Remote;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,8 +12,15 @@ import java.net.URI;
  * Class to create the menu bar.
  * Created by Kaila Gervais
  */
-public class GameGUI extends JFrame {
+
+
+public class GameGUI extends JFrame
+{
     MenuObserver menuObserver;
+
+    static boolean isLogged = false;
+    static String playerName = "";
+
     /**
      * Initialize GameGUI
      */
@@ -67,8 +76,10 @@ public class GameGUI extends JFrame {
 
         //Add all submenu items to menu
         file.add(nMenuItem);
-        file.add(rMenuItem);
-        file.add(lMenuItem);
+
+            file.add(rMenuItem);
+            file.add(lMenuItem);
+
         file.add(sMenuItem);
         file.add(eMenuItem);
         menubar.add(file);
@@ -105,9 +116,9 @@ public class GameGUI extends JFrame {
         /**
          * ActionListener for when New Game is selected.
          */
-        nMenuItem.addActionListener(new ActionListener(){
+        nMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent event){
+            public void actionPerformed(ActionEvent event) {
                 String[] buttons = {"Hard", "Medium", "Easy"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
                 int difficulty = JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
@@ -129,7 +140,25 @@ public class GameGUI extends JFrame {
                 JLabel password = new JLabel("Password");
                 JTextField pword = new JPasswordField();
                 Object[] input = {username, userName, password, pword};
+
                 int result = JOptionPane.showConfirmDialog(null, input, "Login Information", JOptionPane.OK_CANCEL_OPTION);
+
+
+                if (Remote.validUser(userName.getText(), pword.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "User Logged in", "User Logged in", JOptionPane.PLAIN_MESSAGE);
+                    isLogged = true;
+                    playerName = userName.getText();
+                    file.remove(rMenuItem);
+                    file.remove(lMenuItem);
+                    setTitle("Moose In The House Game | " + playerName);
+
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Failed to login", "Failed to log in", JOptionPane.ERROR_MESSAGE);
+                }
+
+
 
             }
         });
@@ -137,18 +166,30 @@ public class GameGUI extends JFrame {
         /**
          * ActionListener for when Register is selected.
          */
-        rMenuItem.addActionListener(new ActionListener(){
+        rMenuItem.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent event){
+            public void actionPerformed(ActionEvent event) {
                 JLabel username = new JLabel("Username");
                 JTextField userName = new JTextField();
                 JLabel password = new JLabel("Password");
                 JTextField pword = new JPasswordField();
-                Object[] input = {username, userName, password, pword};
+                JLabel email = new JLabel("Email");
+                JTextField mail = new JTextField();
+                Object[] input = {username, userName, password, pword, email, mail};
                 int result = JOptionPane.showConfirmDialog(null, input, "Register Information", JOptionPane.OK_CANCEL_OPTION);
 
-            }
-        });
+                if (Remote.registerUser(userName.getText(), pword.getText(), mail.getText()))
+                {
+                    JOptionPane.showMessageDialog(null, "User Registered", "User Registered", JOptionPane.PLAIN_MESSAGE);
+
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed To register", "Failed To register", JOptionPane.ERROR_MESSAGE);
+                }
+
+
+        }
+    });
 
         /**
          * Action listener to perform event when statistics menu item is selected.
@@ -169,6 +210,20 @@ public class GameGUI extends JFrame {
 
 
         setJMenuBar(menubar);
+    }
+    /**
+     * Function to get the active player logged in.
+     */
+    public static String getPlayerName()
+    {
+        return playerName;
+    }
+    /**
+     * Function to check for an active player.
+     */
+    public static Boolean isPlayerLogged()
+    {
+        return isLogged;
     }
 
     /**
