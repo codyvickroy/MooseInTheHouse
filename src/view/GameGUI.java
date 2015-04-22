@@ -1,10 +1,10 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URI;
 
 /**
  * Class to create the menu bar.
@@ -150,7 +150,14 @@ public class GameGUI extends JFrame {
         sMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
-                //CODE FOR HOW TO SEE GAME STATS
+                Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+                if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(new URI("http://www.rocksrocksrocks.rocks/moose/"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
