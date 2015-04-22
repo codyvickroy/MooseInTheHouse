@@ -43,7 +43,10 @@ public class Human extends Player {
      * @param playerID  player to receive card
      * @return          validity of move
      */
-    public void setMove(Card card, int playerID) {
+    public void setMove(int index, int playerID) {
+
+        Card card = house.get(index);
+
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
