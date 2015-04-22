@@ -1,6 +1,7 @@
 package view;
 
 import models.card.Card;
+import models.card.bottom.Moose;
 import models.game.Game;
 import models.player.Bot;
 import models.player.Human;
@@ -23,6 +24,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.awt.Component;
 
 /**
  * Class to display a graphical user interface to play Moose In the House card game.
@@ -30,22 +32,22 @@ import java.util.UUID;
  * Created by Kaila Gervais - with help from Brandt Newton.
  * Drag and Drop functionality created by Michael Fritz.
  */
-public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObserver {
+public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
     //Define all the JPanels needed to hold the cards, and houses
     //Card and house panel 2 and 3 require a box layout in order to display the cards vertically
-    JPanel c1HandPanel = new JPanel();
-    JPanel playerHousePanel = new JPanel();
-    JPanel c2HandPanel = new JPanel();
-    LayoutManager c2cardPanelLayout = new BoxLayout(c2HandPanel, BoxLayout.Y_AXIS);
-    JPanel c2housePanel = new JPanel();
+    JPanel c1cardPanel = new JPanel();
+    DragPanel c1housePanel = new DragPanel();
+    JPanel c2cardPanel = new JPanel();
+    LayoutManager c2cardPanelLayout = new BoxLayout(c2cardPanel, BoxLayout.Y_AXIS);
+    DragPanel c2housePanel = new DragPanel();
     LayoutManager c2housePanelLayout = new BoxLayout(c2housePanel, BoxLayout.Y_AXIS);
-    JPanel c3HandPanel = new JPanel();
-    LayoutManager c3cardPanelLayout = new BoxLayout(c3HandPanel, BoxLayout.Y_AXIS);
-    JPanel c3housePanel = new JPanel();
+    DragPanel c3cardPanel = new DragPanel();
+    LayoutManager c3cardPanelLayout = new BoxLayout(c3cardPanel, BoxLayout.Y_AXIS);
+    DragPanel c3housePanel = new DragPanel();
     LayoutManager c3housePanelLayout = new BoxLayout(c3housePanel, BoxLayout.Y_AXIS);
     DragPanel pcardPanel = new DragPanel();
-    JPanel c1HousePanel = new JPanel();
+    DragPanel phousePanel = new DragPanel();
     JPanel deckPanel = new JPanel();
 
     Game game;
@@ -55,6 +57,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
     //Add a LabelTransferHandler to enable dragging AND dropping
     LabelTransferHandler th = new LabelTransferHandler();
 
+    public static UUID[] ids = new UUID[4];
 
     //Define the labels to label which cards are whose
     JLabel c1cardlabel = new JLabel();
@@ -68,19 +71,36 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
 
 
     //Define the labels of the cards for the game
-    final int HAND_SIZE = 5;
+    final int HAND_SIZE = 4;
     final int HOUSE_SIZE = 4;
 
     //Declare the labels for each players cards in their hand and in their house as well as the deck and discard pile
     JLabel[] playerHand = new JLabel[HAND_SIZE];
-    JLabel[] c1Hand = new JLabel[HAND_SIZE];
-    JLabel[] c2Hand = new JLabel[HAND_SIZE];
-    JLabel[] c3Hand = new JLabel[HAND_SIZE];
-
-    JLabel[] playerHouse = new JLabel[HOUSE_SIZE];
-    JLabel[] c1House = new JLabel[HOUSE_SIZE];
-    JLabel[] c2House = new JLabel[HOUSE_SIZE];
-    JLabel[] c3House = new JLabel[HOUSE_SIZE];
+    JLabel c1card1;
+    JLabel c1card2;
+    JLabel c1card3;
+    JLabel c1card4;
+    JLabel c2card1;
+    JLabel c2card2;
+    JLabel c2card3;
+    JLabel c2card4;
+    JLabel c3card1;
+    JLabel c3card2;
+    JLabel c3card3;
+    JLabel c3card4;
+    JLabel[] comp1House = new JLabel[HOUSE_SIZE];
+    JLabel c2house1;
+    JLabel c2house2;
+    JLabel c2house3;
+    JLabel c2house4;
+    JLabel c3house1;
+    JLabel c3house2;
+    JLabel c3house3;
+    JLabel c3house4;
+    JLabel phouse1;
+    JLabel phouse2;
+    JLabel phouse3;
+    JLabel phouse4;
     JLabel deck;
     JLabel discard;
 
@@ -91,104 +111,162 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      */
     public MooseInTheHouseGUI (){
         //Set the background color
-        c1HandPanel.setBackground(new Color(255, 250, 245));
-        playerHousePanel.setBackground(new Color(255, 250, 245));
-        c2HandPanel.setBackground(new Color(255, 250, 245));
+        c1cardPanel.setBackground(new Color(255, 250, 245));
+        c1housePanel.setBackground(new Color(255, 250, 245));
+        c2cardPanel.setBackground(new Color(255, 250, 245));
         c2housePanel.setBackground(new Color(255, 250, 245));
-        c3HandPanel.setBackground(new Color(255, 250, 245));
+        c3cardPanel.setBackground(new Color(255, 250, 245));
         c3housePanel.setBackground(new Color(255, 250, 245));
         pcardPanel.setBackground(new Color(255, 250, 245));
-        c1HousePanel.setBackground(new Color(255, 250, 245));
+        phousePanel.setBackground(new Color(255, 250, 245));
         deckPanel.setBackground(new Color(255, 250, 245));
 
 
         //Set layout for c2 and c3 will space between cards
-        c2HandPanel.setLayout(c2cardPanelLayout);
-        c2HandPanel.setBorder(BorderFactory.createEmptyBorder(60, 20, 10, 10));
+        c2cardPanel.setLayout(c2cardPanelLayout);
+        c2cardPanel.setBorder(BorderFactory.createEmptyBorder(60, 20, 10, 10));
         c2housePanel.setLayout(c2housePanelLayout);
-        c2housePanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 20));
-        c3HandPanel.setLayout(c3cardPanelLayout);
-        c3HandPanel.setBorder(BorderFactory.createEmptyBorder(60, 10, 10, 20));
-
+        c2housePanel.setBorder(BorderFactory.createEmptyBorder(20,10,10,20));
+        c3cardPanel.setLayout(c3cardPanelLayout);
+        c3cardPanel.setBorder(BorderFactory.createEmptyBorder(60,10,10,20));
         c3housePanel.setLayout(c3housePanelLayout);
-        c3housePanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 20));
+        c3housePanel.setBorder(BorderFactory.createEmptyBorder(20,10,10,20));
+
+        //Get the points for each player and display them near their cards
+        //int p1score = Game.getPlayers()[0].getPoints();
+        //int p2score = Game.getPlayers()[1].getPoints();
+        //int p3score = Game.getPlayers()[2].getPoints();
+        //int p4score = Game.getPlayers()[3].getPoints();
+
+        ids[0] = phousePanel.getID();
+        ids[1] = c1housePanel.getID();
+        ids[2] = c2housePanel.getID();
+        ids[3] = c3cardPanel.getID();
+        System.out.println("Hand: " + pcardPanel.getID().toString());
+
+        System.out.println("House: " + phousePanel.getID().toString());
+
+        System.out.println(ids[0]==ids[2]);
+       // System.out.println(c1housePanel.getID().toString());
+       // System.out.println(c2housePanel.getID().toString());
+       // System.out.println(c3cardPanel.getID().toString());
+
+        //Initialize the players scores to 0
+        int p1score = 0;
+        int p2score = 0;
+        int p3score = 0;
+        int p4score = 0;
+
 
         //Set the name for each players area and add them to the JPanel
-        c1cardlabel.setText("Score: ");
-        c2cardlabel.setText("Score: ");
-        c3cardlabel.setText("Score: ");
-        pcardlabel.setText("Score: ");
-        c1HandPanel.add(c1cardlabel);
-        c2HandPanel.add(c2cardlabel);
-        c3HandPanel.add(c3cardlabel);
+        c1cardlabel.setText("Computer 1:");
+        pcardlabel.setText("Player: ");
+        c2cardlabel.setText("Computer 2:");
+        c3cardlabel.setText("Computer 3:");
+        c1cardPanel.add(c1cardlabel);
+        c2cardPanel.add(c2cardlabel);
+        c3cardPanel.add(c3cardlabel);
         pcardPanel.add(pcardlabel);
+        c1score.setText("Score: " +p2score);
+        c2score.setText("Score: " +p3score);
+        c3score.setText("Score: " +p4score);
+        pscore.setText("Score: " +p1score);
+        c1cardPanel.add(c1score);
+        c2cardPanel.add(c2score);
+        c3cardPanel.add(c3score);
+        pcardPanel.add(pscore);
+
+
+
+
 
         //Add card areas to each JPanel player house
-        for (int i = 0; i < playerHouse.length; i++) {
-            playerHouse[i] = new JLabel(Card.getEmptyCard());
-            playerHousePanel.add(playerHouse[i]);
+        for (int i = 0; i < comp1House.length; i++) {
+            comp1House[i] = new JLabel(Card.getEmptyCard());
+            c1housePanel.add(comp1House[i]);
         }
 
-        for (int i = 0; i < c2House.length; i++) {
-            c2House[i] = new JLabel(Card.getEmptyCard());
-            c2housePanel.add(c2House[i]);
-        }
-        // Formatting
-        c2House[0].setBorder(BorderFactory.createEmptyBorder(75, 0, 5, 0));
-        c2House[1].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c2House[2].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c2House[3].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        //Add empty images to house panels for viewing layout purpose
+        c2house1 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c2house1.setBorder(BorderFactory.createEmptyBorder(75, 0, 5, 0));
+        c2house2 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c2house2.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2house3 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c2house3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2house4 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c2house4.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2housePanel.add(c2house1);
+        c2housePanel.add(c2house2);
+        c2housePanel.add(c2house3);
+        c2housePanel.add(c2house4);
 
-        for (int i = 0; i < c3House.length; i++) {
-            c3House[i] = new JLabel(Card.getEmptyCard());
-            c3housePanel.add(c3House[i]);
-        }
-        // Formatting
-        c3House[0].setBorder(BorderFactory.createEmptyBorder(75, 0, 5, 0));
-        c3House[1].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c3House[2].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c3House[3].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3house1 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c3house1.setBorder(BorderFactory.createEmptyBorder(75, 0, 5, 0));
+        c3house2 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c3house2.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3house3 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c3house3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3house4 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        c3house4.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3housePanel.add(c3house1);
+        c3housePanel.add(c3house2);
+        c3housePanel.add(c3house3);
+        c3housePanel.add(c3house4);
 
-        for (int i = 0; i < c1House.length; i++) {
-            c1House[i] = new JLabel(Card.getEmptyCard());
-            c1HousePanel.add(c1House[i]);
-        }
+        phouse1 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        phouse2 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        phouse3 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        phouse4 = new JLabel(new ImageIcon(getClass().getResource("/cards/empty.png")));
+        phousePanel.add(phouse1);
+        phousePanel.add(phouse2);
+        phousePanel.add(phouse3);
+        phousePanel.add(phouse4);
 
-        // Hand
+
+        //Add back images to each hand
+        c1card1 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c1card2 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c1card3 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c1card4 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+
+        //Add cards to JPanel
+        c1cardPanel.add(c1card1);
+        c1cardPanel.add(c1card2);
+        c1cardPanel.add(c1card3);
+        c1cardPanel.add(c1card4);
+
+        //Add back images to each card for computer 2 and space accordingly
+        c2card1 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c2card1.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2card2 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c2card2.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2card3 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c2card3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2card4 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c2card4.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c2cardPanel.add(c2card1);
+        c2cardPanel.add(c2card2);
+        c2cardPanel.add(c2card3);
+        c2cardPanel.add(c2card4);
+
+        //Add back images to each card for computer 3 and space accordingly
+        c3card1 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c3card1.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3card2 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c3card2.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3card3 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c3card3.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3card4 = new JLabel(new ImageIcon(getClass().getResource("/cards/back.png")));
+        c3card4.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        c3cardPanel.add(c3card1);
+        c3cardPanel.add(c3card2);
+        c3cardPanel.add(c3card3);
+        c3cardPanel.add(c3card4);
+
         for (int i = 0; i < playerHand.length; i++) {
             playerHand[i] = new JLabel(Card.getEmptyCard());
             pcardPanel.add(playerHand[i]);
         }
-
-        for (int i = 0; i < c1Hand.length; i++) {
-            c1Hand[i] = new JLabel(Card.getEmptyCard());
-            c1HandPanel.add(c1Hand[i]);
-        }
-
-        for (int i = 0; i < c1Hand.length; i++) {
-            c1Hand[i] = new JLabel(Card.getEmptyCard());
-            c1HandPanel.add(c1Hand[i]);
-        }
-
-        for (int i = 0; i < c2Hand.length; i++) {
-            c2Hand[i] = new JLabel(Card.getEmptyCard());
-            c2HandPanel.add(c2Hand[i]);
-        }
-        c2Hand[0].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c2Hand[1].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c2Hand[2].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c2Hand[3].setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-
-        for (int i = 0; i < c3Hand.length; i++) {
-            c3Hand[i] = new JLabel(Card.getEmptyCard());
-            c3HandPanel.add(c3Hand[i]);
-        }
-        c3Hand[0].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c3Hand[1].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c3Hand[2].setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-        c3Hand[3].setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-
-
 
         //Create deck JLabel and add to deck panel area
         deck = new JLabel(Card.getCardBack());
@@ -200,10 +278,9 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         discard.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         deckPanel.add(discard);
 
-        //enable all houses to be dragged to
-        c1HousePanel.setTransferHandler(th);
-        playerHousePanel.setTransferHandler(th);
-
+        //Enable all houses to be dragged to
+        phousePanel.setTransferHandler(th);
+        c1housePanel.setTransferHandler(th);
         c2housePanel.setTransferHandler(th);
         c3housePanel.setTransferHandler(th);
         pcardPanel.setTransferHandler(th);
@@ -214,24 +291,29 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         //Set the layout area for each JPanel - All the houses and Card hand areas
         setLayout(new BorderLayout());
         JPanel c2All = new JPanel(new BorderLayout());
-        c2All.add(c2HandPanel,BorderLayout.WEST);
+        c2All.add(c2cardPanel,BorderLayout.WEST);
         c2All.add(c2housePanel,BorderLayout.EAST);
         add(c2All,BorderLayout.WEST);
         JPanel c3All = new JPanel(new BorderLayout());
-        c3All.add(c3HandPanel,BorderLayout.EAST);
+        c3All.add(c3cardPanel,BorderLayout.EAST);
         c3All.add(c3housePanel, BorderLayout.WEST);
         add(c3All,BorderLayout.EAST);
         JPanel centerArea = new JPanel(new BorderLayout());
         JPanel c1All = new JPanel(new BorderLayout());
-        c1All.add(c1HandPanel,BorderLayout.NORTH);
-        c1All.add(playerHousePanel,BorderLayout.SOUTH);
+        c1All.add(c1cardPanel,BorderLayout.NORTH);
+        c1All.add(c1housePanel,BorderLayout.SOUTH);
         centerArea.add(c1All, BorderLayout.NORTH);
         JPanel pAll = new JPanel(new BorderLayout());
         pAll.add(pcardPanel,BorderLayout.SOUTH);
-        pAll.add(c1HousePanel,BorderLayout.NORTH);
+        pAll.add(phousePanel,BorderLayout.NORTH);
         centerArea.add(pAll, BorderLayout.SOUTH);
         centerArea.add(deckPanel, BorderLayout.CENTER);
         add(centerArea, BorderLayout.CENTER);
+
+
+
+
+
     }
 
     /**
@@ -243,12 +325,17 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         GameGUI mithFrame = new GameGUI();
         mithFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mithFrame.setContentPane(this);
-        mithFrame.setPreferredSize(new Dimension(1200, 900));
-        mithFrame.setMenuObserver(this);
+        mithFrame.setPreferredSize(new Dimension(1200,900));
+
+        newGame(4, 1);
 
         //Display
         mithFrame.pack();
         mithFrame.setVisible(true);
+    }
+
+    public UUID[] getIDs(){
+        return ids;
     }
 
     /**
@@ -256,24 +343,21 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      * @param totalPlayerCount
      * @param difficultyLevel
      */
-    @Override
     public void newGame(int totalPlayerCount, int difficultyLevel) {
-        System.out.println(totalPlayerCount);
 
         Player[] players = new Player[totalPlayerCount];
-//        players[0] = new Human();
+        players[0] = new Human();
 
         // Get AI level from game
         Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
 
         // Create bots with specified difficulty level
-        for (int i = 0; i < totalPlayerCount; i++) {
+        for (int i = 1; i < totalPlayerCount; i++) {
             players[i] = new Bot(aiDifficulty);
         }
 
         game = new Game(players);
         game.setCardObserver(this);
-        game.gameLoop(false);
     }
 
     /**
@@ -281,10 +365,12 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      * @param args
      */
     public static void main(String[] args){
+
         MooseInTheHouseGUI frame = new MooseInTheHouseGUI();
         frame.display();
-    }
 
+    }
+    
     class DragPanel extends JPanel {
         private UUID panelID;
 
@@ -407,18 +493,50 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
             //System.out.println("importData");
             if(!canImport(support)) return false;
             DragPanel target = (DragPanel)support.getComponent();
+            System.out.println(target.getID().toString());
             try {
                 DragPanel src = (DragPanel)support.getTransferable().getTransferData(localObjectFlavor);
+
+
                 JLabel l = new JLabel();
                 l.setIcon(src.draggingLabel.getIcon());
                 l.setText(src.draggingLabel.getText());
                 target.add(l);
                 target.revalidate();
+                int index = 0;
+                check:
+                for(Component c : src.getComponents()){
+                    if(c.equals(src.draggingLabel)){
+                        break check;
+                    }
+                    index++;
+                }
+
+                System.out.println(index);
+                if(target.getID().equals(MooseInTheHouseGUI.ids[0])) {
+                    //Game.getHuman().setMove( index , 0);
+                    System.out.println(index);
+                }else if(target.getID().equals(MooseInTheHouseGUI.ids[1])) {
+                    //Game.getHuman().setMove( index , 1);
+                    System.out.println(index);
+                }else if(target.getID().equals(MooseInTheHouseGUI.ids[2])) {
+                   // Game.getHuman().setMove( index , 2);
+                    System.out.println(index);
+                } else if(target.getID().equals(MooseInTheHouseGUI.ids[3])) {
+                    //Game.getHuman().setMove( index , 3);
+                    System.out.println(index);
+                } else{
+                    //Game.getHuman().setMove( index , -1);
+                }
                 return true;
             } catch(UnsupportedFlavorException ufe) {
                 ufe.printStackTrace();
+                System.out.println("shite");
             } catch(java.io.IOException ioe) {
                 ioe.printStackTrace();
+                System.out.println("woops");
+            } catch ( Error e){
+                System.out.println("oops");
             }
             return false;
         }
@@ -434,6 +552,8 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
             src.draggingLabel = null;
             window.setVisible(false);
         }
+
+
     }
 
     /**
@@ -453,47 +573,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
                     cardImage = hand[j].getImage();
                 } else {
                     // Show back of card if computer
-                    cardImage = Card.getCardBack();
+                    cardImage = hand[j].getCardBack();
                 }
 
                 playerHand[j].setIcon(cardImage);
-            }
-        }
-
-        // User
-        Card[] hand = Game.getPlayers()[0].getHand();
-        for (int i = 0; i < hand.length; i++) {
-            playerHand[i].setIcon(hand[i].getImage());
-        }
-        for (int i = hand.length; i < HAND_SIZE; i++) {
-            playerHand[i].setIcon(Card.getEmptyCard());
-        }
-
-        hand = Game.getPlayers()[1].getHand();
-        for (int i = 0; i < hand.length; i++) {
-            c1Hand[i].setIcon(Card.getCardBack());
-        }
-        for (int i = hand.length; i < HAND_SIZE; i++) {
-            c1Hand[i].setIcon(Card.getEmptyCard());
-        }
-
-        if (Game.getPlayers().length > 2) {
-            hand = Game.getPlayers()[2].getHand();
-            for (int i = 0; i < hand.length; i++) {
-                c2Hand[i].setIcon(Card.getCardBack());
-            }
-            for (int i = hand.length; i < HAND_SIZE; i++) {
-                c2Hand[i].setIcon(Card.getEmptyCard());
-            }
-        }
-
-        if (Game.getPlayers().length == 4) {
-            hand = Game.getPlayers()[3].getHand();
-            for (int i = 0; i < hand.length; i++) {
-                c3Hand[i].setIcon(Card.getCardBack());
-            }
-            for (int i = hand.length; i < HAND_SIZE; i++) {
-                c3Hand[i].setIcon(Card.getEmptyCard());
             }
         }
     }
@@ -501,40 +584,13 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
     @Override
     public void updateHouses(){
 
-        // User
-        Card[] house = Game.getPlayers()[0].getHouse();
-        for (int i = 0; i < house.length; i++) {
-            playerHouse[i].setIcon(house[i].getImage());
-        }
-        for (int i = house.length; i < HOUSE_SIZE; i++) {
-            playerHouse[i].setIcon(Card.getEmptyCard());
-        }
+        Player[] players = Game.getPlayers();
 
-        house = Game.getPlayers()[1].getHouse();
-        for (int i = 0; i < house.length; i++) {
-            c1House[i].setIcon(house[i].getImage());
-        }
-        for (int i = house.length; i < HOUSE_SIZE; i++) {
-            c1House[i].setIcon(Card.getEmptyCard());
-        }
-
-        if (Game.getPlayers().length > 2) {
-            house = Game.getPlayers()[2].getHouse();
-            for (int i = 0; i < house.length; i++) {
-                c2House[i].setIcon(house[i].getImage());
-            }
-            for (int i = house.length; i < HOUSE_SIZE; i++) {
-                c2House[i].setIcon(Card.getEmptyCard());
-            }
-        }
-
-        if (Game.getPlayers().length == 4) {
-            house = Game.getPlayers()[3].getHouse();
-            for (int i = 0; i < house.length; i++) {
-                c3House[i].setIcon(house[i].getImage());
-            }
-            for (int i = house.length; i < HOUSE_SIZE; i++) {
-                c3House[i].setIcon(Card.getEmptyCard());
+        for (int i = 0; i < players.length; i++) {
+            Card[] house = players[i].getHouse();
+            for (int j = 0; j < house.length; j++) {
+                ImageIcon cardImage = house[j].getImage();
+                // TODO display card in house
             }
         }
     }
@@ -572,14 +628,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
 
         Player[] players = Game.getPlayers();
 
-        pcardlabel.setText("Score: " + players[0].getPoints());
-        c1cardlabel.setText("Score: " + players[1].getPoints());
+        for (int i = 0; i < players.length; i++) {
+            int points = players[i].getPoints();
 
-        if (players.length > 3) {
-            c2cardlabel.setText("Score: " + players[2].getPoints());
-        }
-        if (players.length == 4) {
-            c3cardlabel.setText("Score: " + players[3].getPoints());
+            // TODO display points
         }
     }
 }
