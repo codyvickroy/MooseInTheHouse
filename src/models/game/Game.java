@@ -91,11 +91,11 @@ public class Game {
                 players[move.getReceivingPlayerID()].setCardInHouse(move);
                 Player recievingPlayer = players[move.getReceivingPlayerID()];
                 Card pHand[] = recievingPlayer.getHand();
+
                 if ((!move.getCard().isBottomCard()) && (move.getCard().getCardClass() != null)) {
                     boolean foundBait = false;
                     for (int i = 0; (i <= pHand.length - 1) && (!foundBait); i++) {
                         if (pHand[i].isBait()) {
-                            players[move.getReceivingPlayerID()].setCardInHouse(move);
                             Move baitMove = new Move(move.getReceivingPlayerID(), new MooseBait(), move.getCardPlayerID(), move.getHousePosition());
                             moveHistory.add(baitMove);
                             recievingPlayer.removeCardFromHand(new MooseBait());

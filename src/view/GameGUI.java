@@ -1,18 +1,28 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+/**
+ * Class to create the menu bar.
+ * Created by Kaila Gervais
+ */
 public class GameGUI extends JFrame {
 
+    /**
+     * Initialize GameGUI
+     */
     public GameGUI() {
 
         initUI();
     }
 
+    /**
+     * Create the menu bar and set the paramters
+     */
     private void initUI() {
 
         //Initialize
@@ -25,6 +35,9 @@ public class GameGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    /**
+     * Create menu bar and add the needed items.
+     */
     private void createMenuBar() {
 
         //Create new JMenuBar named menubar
@@ -51,8 +64,8 @@ public class GameGUI extends JFrame {
 
         //Add all submenu items to menu
         file.add(nMenuItem);
-        file.add(lMenuItem);
         file.add(rMenuItem);
+        file.add(lMenuItem);
         file.add(sMenuItem);
         file.add(eMenuItem);
         menubar.add(file);
@@ -86,33 +99,54 @@ public class GameGUI extends JFrame {
         help.add(hmenuItem);
         menubar.add(help);
 
-        //ActionListener for when New Game is selected
+        /**
+         * ActionListener for when New Game is selected.
+         */
         nMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
                 String[] buttons = {"Hard", "Medium", "Easy"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
                 JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
+                String[] pbuttons = {"2", "3", "4"};
+                JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
             }
         });
 
-        //ActionListener for when Login is selected
+        /**
+         * ActionListener for when Login is selected.
+         */
         lMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
-                //CODE FOR HOW TO LOGIN
+               JLabel username = new JLabel("Username");
+                JTextField userName = new JTextField();
+                JLabel password = new JLabel("Password");
+                JTextField pword = new JPasswordField();
+                Object[] input = {username, userName, password, pword};
+                int result = JOptionPane.showConfirmDialog(null, input, "Login Information", JOptionPane.OK_CANCEL_OPTION);
+
             }
         });
 
-        //ActionListener for when Register is selected
+        /**
+         * ActionListener for when Register is selected.
+         */
         rMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
-                //CODE FOR HOW TO REGISTER
+                JLabel username = new JLabel("Username");
+                JTextField userName = new JTextField();
+                JLabel password = new JLabel("Password");
+                JTextField pword = new JPasswordField();
+                Object[] input = {username, userName, password, pword};
+                int result = JOptionPane.showConfirmDialog(null, input, "Register Information", JOptionPane.OK_CANCEL_OPTION);
             }
         });
 
-        //ActionListener for when New Game is selected
+        /**
+         * Action listener to perform event when statistics menu item is selected.
+         */
         sMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
@@ -124,7 +158,10 @@ public class GameGUI extends JFrame {
         setJMenuBar(menubar);
     }
 
-    //Main function to display the created menu
+    /**
+     * Main function to display the menu.
+     * @param args
+     */
     public static void main(String[] args){
         EventQueue.invokeLater(new Runnable(){
             @Override
