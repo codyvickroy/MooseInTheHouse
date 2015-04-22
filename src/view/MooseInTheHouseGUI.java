@@ -441,7 +441,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                 //do things
                 if(MooseInTheHouseGUI.ids[0].equals(target.getID())){
                     System.out.println("player");
-                    Game.getHuman().setMove(index-1,0);
+                    Game.getHuman().setMove(index,0);
                 }else if(MooseInTheHouseGUI.ids[1].equals(target.getID())){
                     System.out.println("c1");
                 }else if(MooseInTheHouseGUI.ids[2].equals(target.getID())){
@@ -450,7 +450,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                     System.out.println("c3");
                 }else if(MooseInTheHouseGUI.ids[4].equals(target.getID())){
                     System.out.println("discard");
-                    Game.getHuman().setMove(index-1, -1);
+                    Game.getHuman().setMove(index, -1);
                 }else{
                     System.out.println("error");
                     return false;

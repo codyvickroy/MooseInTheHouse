@@ -44,8 +44,9 @@ public class Human extends Player {
      * @return          validity of move
      */
     public void setMove(int index, int playerID) {
-
-        Card card = house.get(index);
+        System.out.print("helllo");
+        Card card = hand.get(index);
+        System.out.print("hi");
 
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
