@@ -11,7 +11,7 @@ import java.net.URI;
  * Created by Kaila Gervais
  */
 public class GameGUI extends JFrame {
-
+    MenuObserver menuObserver;
     /**
      * Initialize GameGUI
      */
@@ -20,6 +20,9 @@ public class GameGUI extends JFrame {
         initUI();
     }
 
+    public void setMenuObserver(MenuObserver menuObserver) {
+        this.menuObserver = menuObserver;
+    }
     /**
      * Create the menu bar and set the paramters
      */
@@ -107,9 +110,11 @@ public class GameGUI extends JFrame {
             public void actionPerformed(ActionEvent event){
                 String[] buttons = {"Hard", "Medium", "Easy"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
-                JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
+                int difficulty = JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
                 String[] pbuttons = {"2", "3", "4"};
-                JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
+                int opponents = JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
+
+                menuObserver.newGame(opponents + 2, difficulty);
             }
         });
 
@@ -119,7 +124,7 @@ public class GameGUI extends JFrame {
         lMenuItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event){
-               JLabel username = new JLabel("Username");
+                JLabel username = new JLabel("Username");
                 JTextField userName = new JTextField();
                 JLabel password = new JLabel("Password");
                 JTextField pword = new JPasswordField();
@@ -141,6 +146,7 @@ public class GameGUI extends JFrame {
                 JTextField pword = new JPasswordField();
                 Object[] input = {username, userName, password, pword};
                 int result = JOptionPane.showConfirmDialog(null, input, "Register Information", JOptionPane.OK_CANCEL_OPTION);
+
             }
         });
 
@@ -179,7 +185,6 @@ public class GameGUI extends JFrame {
         });
     }
 }
-          
-        
-        
-        
+
+
+

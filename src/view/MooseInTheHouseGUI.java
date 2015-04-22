@@ -1,12 +1,12 @@
 package view;
 
 import models.card.Card;
-import models.card.bottom.Moose;
 import models.game.Game;
 import models.player.Bot;
 import models.player.Human;
 import models.player.Player;
 import models.player.ai.Behavior;
+
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
 import javax.swing.*;
@@ -31,7 +31,7 @@ import java.util.UUID;
  * Created by Kaila Gervais - with help from Brandt Newton.
  * Drag and Drop functionality created by Michael Fritz.
  */
-public class MooseInTheHouseGUI extends JPanel implements CardObserver {
+public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObserver {
 
     //Define all the JPanels needed to hold the cards, and houses
     //Card and house panel 2 and 3 require a box layout in order to display the cards vertically
