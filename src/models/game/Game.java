@@ -29,9 +29,11 @@ public class Game {
         deck = new Deck();
 
 
-        for (int i = 0; i < players.length; i++) {
-            players[i].addCardsToHand(deck.deal(4));
+        for (Player player : players) {
+            player.addCardsToHand(deck.deal(4));
         }
+        System.out.println(players.length);
+
     }//end constructor
 
     /**

@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +11,18 @@ import java.awt.event.ActionListener;
  */
 public class GameGUI extends JFrame {
 
+    MenuObserver menuObserver;
+
     /**
      * Initialize GameGUI
      */
     public GameGUI() {
 
         initUI();
+    }
+
+    public void setMenuObserver(MenuObserver menuObserver) {
+        this.menuObserver = menuObserver;
     }
 
     /**
@@ -107,9 +112,11 @@ public class GameGUI extends JFrame {
             public void actionPerformed(ActionEvent event){
                 String[] buttons = {"Hard", "Medium", "Easy"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
-                JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
+                int difficulty = JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
                 String[] pbuttons = {"2", "3", "4"};
-                JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
+                int opponents = JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
+
+                menuObserver.newGame(opponents + 2, difficulty);
             }
         });
 
