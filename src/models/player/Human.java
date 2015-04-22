@@ -4,6 +4,8 @@ import models.card.Card;
 import models.game.Game;
 import models.game.Move;
 
+import java.util.ArrayList;
+
 public class Human extends Player {
     private boolean takingTurn;
     private Move move;
@@ -48,7 +50,7 @@ public class Human extends Player {
         Card card = hand.get(index);
         System.out.print("hi");
 
-        if (takingTurn) {
+        if (true) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
                 takingTurn = false;
@@ -57,6 +59,7 @@ public class Human extends Player {
                 takingTurn = false;
             }
         }
+        System.out.println(move);
     }
 
     public boolean isTakingTurn() {
