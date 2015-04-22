@@ -258,7 +258,6 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      */
     @Override
     public void newGame(int totalPlayerCount, int difficultyLevel) {
-        System.out.println(totalPlayerCount);
 
         Player[] players = new Player[totalPlayerCount];
 //        players[0] = new Human();

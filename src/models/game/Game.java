@@ -32,8 +32,6 @@ public class Game {
         for (Player player : players) {
             player.addCardsToHand(deck.deal(4));
         }
-        System.out.println(players.length);
-
     }//end constructor
 
     /**
