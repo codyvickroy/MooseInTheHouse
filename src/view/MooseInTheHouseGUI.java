@@ -278,7 +278,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
 
         // Create bots with specified difficulty level
-        for (int i = 0; i < totalPlayerCount; i++) {
+        for (int i = 1; i < totalPlayerCount; i++) {
             players[i] = new Bot(aiDifficulty);
         }
 
@@ -425,7 +425,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                 JLabel l = new JLabel();
                 l.setIcon(src.draggingLabel.getIcon());
                 l.setText(src.draggingLabel.getText());
-                //target.add(l);
+                target.add(l);
                 target.revalidate();
 
                 int index = 0;
@@ -444,10 +444,13 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                     Game.getHuman().setMove(index,0);
                 }else if(MooseInTheHouseGUI.ids[1].equals(target.getID())){
                     System.out.println("c1");
+                    Game.getHuman().setMove(index, 1);
                 }else if(MooseInTheHouseGUI.ids[2].equals(target.getID())){
                     System.out.println("c2");
+                    Game.getHuman().setMove(index, 2);
                 }else if(MooseInTheHouseGUI.ids[3].equals(target.getID())){
                     System.out.println("c3");
+                    Game.getHuman().setMove(index, 3);
                 }else if(MooseInTheHouseGUI.ids[4].equals(target.getID())){
                     System.out.println("discard");
                     Game.getHuman().setMove(index, -1);
@@ -456,8 +459,8 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                     return false;
                 }
 
-                //updateHouses();
-                //updateHands();
+                updateHouses();
+                updateHands();
 
 
                 return true;
