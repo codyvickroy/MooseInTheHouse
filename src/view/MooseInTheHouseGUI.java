@@ -6,7 +6,6 @@ import models.player.Bot;
 import models.player.Human;
 import models.player.Player;
 import models.player.ai.Behavior;
-
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
 import javax.swing.*;
