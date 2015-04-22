@@ -3,6 +3,7 @@ package remote;
 import models.game.Game;
 import models.game.Move;
 import models.player.Player;
+import view.GameGUI;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -20,6 +21,8 @@ public class Remote
     public static Boolean initGame()
     {
         String inputLine ="";
+
+
         int size = Game.getPlayers().length;
 
         try{
@@ -27,6 +30,10 @@ public class Remote
             site +=currentGameID();
             site +="&ip=";
             site +=getIP();
+            if(GameGUI.isPlayerLogged()) {
+                site += "&us=";
+                site += GameGUI.getPlayerName();
+            }
 //            System.out.println(site);
             URL web = new URL(site);
             URLConnection gate = web.openConnection();
@@ -125,7 +132,6 @@ public class Remote
         String ID = sha1(Long.toString(System.currentTimeMillis()) + getIP());
         try
         {
-
             PrintWriter writer = new PrintWriter("game.ID", "UTF-8");
             writer.println(ID);
             writer.close();
@@ -218,7 +224,7 @@ public class Remote
 
         return Boolean.parseBoolean(inputLine);
     }
-    static Boolean validUser(String user, String password)
+    public static Boolean validUser(String user, String password)
     {
         String inputLine ="";
         String hash = sha1(password);
@@ -227,7 +233,7 @@ public class Remote
             site +=user;
             site +="&h=";
             site +=hash;
-            //System.out.println(site);
+            System.out.println(site);
             URL web = new URL(site); 
             URLConnection gate = web.openConnection(); 
             BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
