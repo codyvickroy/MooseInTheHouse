@@ -6,26 +6,27 @@ import models.game.Move;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by brandt on 3/20/15.
- */
 public abstract class Player {
 
-    private int points = 0;
+    private static int idCounter = 0;
     private int id;
 
     protected ArrayList<Card> hand = new ArrayList<Card>();
     protected ArrayList<Card> house = new ArrayList<Card>();
 
-    public Player(int id) {
-        this.id = id;
+
+    public Player() {
+        // Set ID to global counter
+        id = idCounter++;
         hand = new ArrayList<Card>();
+        house = new ArrayList<Card>();
+
     }
 
     public abstract Move makeMove();
 
     /**
-     * Adds an array of cards to the players hand.
+     * Adds an array of cards to the opponents hand.
      * Called during dealing or drawing cards.
      *
      * @param cards    cards to be added to hand
@@ -36,7 +37,7 @@ public abstract class Player {
 
     /**
      * Sets the given card in the player's house.
-     * If the card is an occupied room then increment the players points.
+     * If the card is an occupied room then increment the opponents points.
      * If the index is larger than size of the house it is added to the house.
      * If the index within the size of the house it will overwrite the card at that position.
      *
@@ -44,10 +45,6 @@ public abstract class Player {
      * @param card  card to be played
      */
     public void setCardInHouse(int index, Card card) {
-        if ( ! card.isBottomCard() && ! card.isDefensive()) {
-            points++;
-        }
-
         if (index >= house.size())
             house.add(card);
         else
@@ -58,38 +55,77 @@ public abstract class Player {
         setCardInHouse(move.getHousePosition(), move.getCard());
     }
 
-    public boolean hasMooseInHouse() {
-        for (int i = 0; i < house.size(); i++) {
-            if (Card.isMoose(house.get(i))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Compares player ids
-     * @param player    player to compare
-     * @return          true if player ids match
-     */
-    public boolean equals(Player player) {
-        return id == player.getID();
-    }
-
     public int getID() {
         return id;
     }
 
+    /**
+     * Counts player points
+     * @return  total number of occupied rooms
+     */
     public int getPoints() {
+        int points = 0;
+        for (Card card : house) {
+            if ( ! card.isBottomCard() && card.getCardClass() != null) {
+                points++;
+            }
+        }
         return points;
     }
 
     public Card[] getHand() {
-        return house.toArray(new Card[hand.size()]);
+        return hand.toArray(new Card[hand.size()]);
     }
 
     public Card[] getHouse() {
         return house.toArray(new Card[house.size()]);
     }
+
+    public abstract void setMove(Card card, int playerID);
+
+    /**
+     * Searches the supplied array of players for one that matches the supplied ID
+     *
+     * @param players   players to search
+     * @param id        target id
+     * @return          player with matching id or null
+     */
+    public static Player findPlayerByID(Player[] players, int id) {
+        for (Player player : players) {
+            if (player.getID() == id) {
+                return player;
+            }
+        }
+        System.err.println("No player by ID " + id);
+        return null;
+    }
+
+    /**
+     * Used to remove a card from player's hand after they make a move.
+     *
+     * This will remove the first instance found of the card.
+     *
+     * @param card  card type to remove
+     */
+    public void removeCardFromHand(Card card) {
+        for (int i = 0; i < hand.size(); i++) {
+            if (card.equals(hand.get(i))) {
+                hand.remove(i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Removes card from player's house
+     * @param card
+     */
+    public void removeCardFromHouse(Card card) {
+        for (int i = 0; i < house.size(); i++) {
+            if (card.equals(house.get(i))) {
+                house.remove(i);
+                return;
+            }
+        }
+     }
 }

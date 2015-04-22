@@ -5,12 +5,10 @@ package models.card.top;
  */
 public class MooseInLivingRoom extends TopCard {
     public MooseInLivingRoom() {
-        super(CardClass.LIVINGROOM, "asdf", 1);
+        super(CardClass.LIVINGROOM, "mooseinlivingroom.png", 1);
     }
 
-
-    @Override
     public boolean isDefensive() {
-        return true;
+        return false;
     }
 }

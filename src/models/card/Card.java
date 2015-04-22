@@ -1,32 +1,35 @@
 package models.card;
 
 
-/**
- * Created by brandt on 3/13/15.
- */
+import javax.swing.*;
+
+
 public abstract class Card {
 
-    private int value;
-
     public static enum CardClass {
-        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN
+        MOOSE, BATHROOM, LIVINGROOM, BEDROOM, KITCHEN, BAIT;
     }
 
+    private int value;
     protected CardClass cardClass;
-    private String imagePath;
+    private ImageIcon imageIcon;
     public static final int INVALID_POSITION = -1;
+    private static final String CARD_IMAGE_PATH = "/cards/";
 
-    public Card(CardClass cardClass, String imagePath, int value) {
+    public Card(CardClass cardClass, String imageName, int value) {
         this.cardClass = cardClass;
-        this.imagePath = imagePath;
+        this.value = value;
+
+        // Attempt to load card image
+        try {
+            imageIcon = new ImageIcon(getClass().getResource(CARD_IMAGE_PATH + imageName));
+        } catch(NullPointerException e) {
+            System.err.println("Error loading " + this + " image!");
+        }
     }
 
     public CardClass getCardClass() {
         return cardClass;
-    }
-
-    public String getImagePath() {
-        return imagePath;
     }
 
     /**
@@ -44,9 +47,13 @@ public abstract class Card {
     public abstract boolean isBottomCard();
 
     public abstract boolean isDefensive();
+    
+    public boolean isBait(){
+        return false;
+    }
 
-    public static boolean isMoose(Card card) {
-        return card.isBottomCard() && card.getCardClass() == CardClass.MOOSE;
+    public boolean isMoose() {
+        return isBottomCard() && getCardClass() == CardClass.MOOSE;
     }
 
     @Override
@@ -72,7 +79,38 @@ public abstract class Card {
         return "CARD NOT FOUND";
     }
 
+    /**
+     * Compares 2 Card objects
+     *
+     * @param card  card to compare
+     * @return      true if cards are the same if they have the same class and are either both bottom or top cards
+     */
+    public boolean equals(Card card) {
+        return (this.getCardClass() == card.getCardClass()) && ! (this.isBottomCard() ^ card.isBottomCard());
+    }
+
     public int getValue() {
         return value;
+    }
+
+    /**
+     * Returns an ImageIcon of the card.
+     *
+     * @return  card's image icon
+     */
+    public ImageIcon getImage() {
+        return imageIcon;
+    }
+
+    /**
+     * Returns an ImageIcon of the back of a card.
+     * @return  card back image icon
+     */
+    public static ImageIcon getCardBack() {
+        return new ImageIcon(Card.class.getResource(CARD_IMAGE_PATH + "back.png"));
+    }
+
+    public static ImageIcon getEmptyCard() {
+        return new ImageIcon (Card.class.getResource(CARD_IMAGE_PATH + "empty.png"));
     }
 }

@@ -5,11 +5,16 @@ package models.card.top;
  */
 public class MooseBait extends TopCard {
     public MooseBait() {
-        super(CardClass.MOOSE, "img/path", 6);
+        super(null, "moosetrap.png", 6);
     }
 
     @Override
     public boolean isDefensive() {
+        return true;
+    }
+    
+    @Override
+    public boolean isBait() {
         return true;
     }
 }

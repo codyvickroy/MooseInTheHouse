@@ -8,7 +8,7 @@ import models.card.Card;
 public class Door extends TopCard {
 
     public Door() {
-        super(null, "asdf", 5);
+        super(null, "door.png", 5);
     }
 
     /**
@@ -21,7 +21,7 @@ public class Door extends TopCard {
     public int validate(Card[] house) {
 
         for (int i = 0; i < house.length; i++) {
-            if (house[i].isBottomCard() && !  Card.isMoose(house[i])) {
+            if (house[i].isBottomCard() && !  house[i].isMoose()) {
                 return i;
             }
         }

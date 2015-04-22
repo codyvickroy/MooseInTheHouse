@@ -1,6 +1,8 @@
 package models.card.bottom;
 
 import models.card.Card;
+import models.card.top.MooseInBathroom;
+import models.card.top.MooseInBedroom;
 
 /**
  * Created by brandt on 3/13/15.
@@ -23,13 +25,13 @@ public abstract class BottomCard extends Card {
         int emptyRoomCount = 0;
 
         for (Card card : house ){
-            if (isBottomCard() && ! Card.isMoose(card)) {
+            if (card.isBottomCard() && ! card.isMoose()) {
                 emptyRoomCount++;
             }
         }
 
         if (emptyRoomCount >= 3) {
-            return -1;
+            return INVALID_POSITION;
         } else {
             return house.length;
         }
@@ -43,5 +45,19 @@ public abstract class BottomCard extends Card {
     @Override
     public boolean isDefensive() {
         return false;
+    }
+
+
+    public static void main(String[] args) {
+        Card[] hand = new Card[]{
+            new EmptyBathroom(),
+                new EmptyBedroom(),
+                new MooseInBedroom(),
+                new MooseInBathroom(),
+        };
+
+        Card playingCard = new EmptyBathroom();
+
+        playingCard.validate(hand);
     }
 }

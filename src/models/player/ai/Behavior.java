@@ -1,79 +1,88 @@
 package models.player.ai;
 
-import models.card.Card;
 import models.game.Move;
 import models.player.Player;
-import models.player.ai.defense.Defense;
-import models.player.ai.discard.Discard;
-import models.player.ai.offense.Offense;
-import models.player.ai.threatAlgorithm.ThreatAlgorithm;
+import models.player.ai.difficulties.Easy;
+import models.player.ai.difficulties.Hard;
+import models.player.ai.difficulties.Normal;
+import models.player.ai.strategies.MoveStrategy;
+import models.player.ai.strategies.discard.Discard;
+
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by Brandt Newton on 4/17/2015.
  */
-public class Behavior implements Defense, Discard, Offense, ThreatAlgorithm {
+public class Behavior {
 
-    private Offense offense;
-    private ThreatAlgorithm threatAlgorithm;
-    private Defense defense;
+    public static final int EASY_AI = 0;
+    public static final int NORMAL_AI = 1;
+    public static final int HARD_AI = 2;
+
+    private LinkedList<MoveStrategy> moveStrategies;
+    private Iterator<MoveStrategy> strategyIterator;
     private Discard discard;
 
-    public Behavior(Offense offense, ThreatAlgorithm threatAlgorithm, Defense defense, Discard discard) {
-        this.offense = offense;
-        this.threatAlgorithm = threatAlgorithm;
-        this.defense = defense;
+    public Behavior(Discard discard) {
+        moveStrategies = new LinkedList<MoveStrategy>();
         this.discard = discard;
     }
 
-    public Offense getOffense() {
-        return offense;
+    /**
+     * Executes the next strategy and returns it's move.
+     *
+     * If there are no strategies left, the player cannot think of any move to make and must discard.
+     *
+     * @return  move
+     */
+    public Move nextStrategy() {
+        if (strategyIterator.hasNext()) {
+            return strategyIterator.next().action();
+        } else {
+            // Out of strategies
+            return discard.action();
+        }
     }
 
-    public void setOffense(Offense offense) {
-        this.offense = offense;
+    /**
+     * Resets the move strategy iterator and updates the player information for the strategies.
+     *
+     * Must be called at the beginning of a new turn.
+     */
+    public void refresh(Player player, Player[] opponents) {
+        MoveStrategy.update(player, opponents);
+
+        strategyIterator = moveStrategies.iterator();
     }
 
-    public ThreatAlgorithm getThreatAlgorithm() {
-        return threatAlgorithm;
+    public static Behavior getAI(int level) {
+
+        Behavior ai;
+
+        switch (level) {
+            case EASY_AI:
+                ai = new Easy();
+                break;
+            case NORMAL_AI:
+                ai = new Normal();
+                break;
+            case HARD_AI:
+                ai = new Hard();
+                break;
+            default:
+                ai = new Easy();
+                break;
+        }
+
+        return ai;
     }
 
-    public void setThreatAlgorithm(ThreatAlgorithm threatAlgorithm) {
-        this.threatAlgorithm = threatAlgorithm;
+    public void addStrategy(MoveStrategy moveStrategy) {
+        moveStrategies.add(moveStrategy);
     }
 
-    public Defense getDefense() {
-        return defense;
-    }
-
-    public void setDefense(Defense defense) {
-        this.defense = defense;
-    }
-
-    public Discard getDiscard() {
-        return discard;
-    }
-
-    public void setDiscard(Discard discard) {
-        this.discard = discard;
-    }
-
-    @Override
-    public Move chooseDefense(Player player) {
-        return defense.chooseDefense(player);
-    }
-
-    @Override
-    public Card chooseDiscard(Card[] hand) {
-        return discard.chooseDiscard(hand);
-    }
-
-    @Override
-    public Move chooseOffense(Player[] players, Player player) {
-        return offense.chooseOffense(players, player);
-    }
-
-    @Override
-    public int[] threatAlgorithm(Player[] players) {
-        return threatAlgorithm.threatAlgorithm(players);
+    public void setMoveStrategies(LinkedList<MoveStrategy> moveStrategies) {
+        this.moveStrategies = moveStrategies;
     }
 }

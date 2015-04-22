@@ -7,7 +7,7 @@ import models.card.Card;
  */
 public class Moose extends BottomCard {
     public Moose() {
-        super(CardClass.MOOSE, "asdf", 4);
+        super(CardClass.MOOSE, "mooseinhouse.png", 4);
     }
 
     /**
@@ -19,8 +19,8 @@ public class Moose extends BottomCard {
     @Override
     public int validate(Card[] house) {
         for (Card card : house) {
-            if (Card.isMoose(card)) {
-                return -1;
+            if (card.isMoose()) {
+                return INVALID_POSITION;
             }
         }
         return house.length;

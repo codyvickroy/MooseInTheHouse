@@ -4,15 +4,11 @@ import models.card.Card;
 import models.game.Game;
 import models.game.Move;
 
-import java.util.ArrayList;
-
 public class Human extends Player {
     private boolean takingTurn;
     private Move move;
 
-    public Human(int id, ArrayList<Card> hand) {
-        super(id);
-
+    public Human() {
         takingTurn = false;
     }
 
@@ -26,11 +22,14 @@ public class Human extends Player {
         move = null;
         takingTurn = true;
 
-        while(move == null) {
+        while(takingTurn && hand.size() > 0) {}
 
+
+        // Update player's hand
+        if (move != null) {
+            removeCardFromHand(move.getCard());
         }
 
-        takingTurn = false;
         return move;
     }
 
@@ -44,17 +43,16 @@ public class Human extends Player {
      * @param playerID  player to receive card
      * @return          validity of move
      */
-    public boolean setMove(Card card, int playerID) {
-        // TODO validate move
+    public void setMove(Card card, int playerID) {
         if (takingTurn) {
             if (playerID == Move.DISCARD_PILE) {
                 move = new Move(getID(), card, Move.DISCARD_PILE, 0);
-            } else if (card.validate(Game.getPlayer(playerID).getHouse()) != Card.INVALID_POSITION) {
-                move = new Move(getID(), card, playerID, card.validate(Game.getPlayer(playerID).getHouse()));
+                takingTurn = false;
+            } else if (card.validate(Game.getPlayerByID(playerID).getHouse()) != Card.INVALID_POSITION) {
+                move = new Move(getID(), card, playerID, card.validate(Game.getPlayerByID(playerID).getHouse()));
+                takingTurn = false;
             }
         }
-
-        return move != null;
     }
 
     public boolean isTakingTurn() {
