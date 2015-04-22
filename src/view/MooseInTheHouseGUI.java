@@ -30,7 +30,7 @@ import java.util.UUID;
  * Created by Kaila Gervais - with help from Brandt Newton.
  * Drag and Drop functionality created by Michael Fritz.
  */
-public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObserver {
+public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
     //Define all the JPanels needed to hold the cards, and houses
     //Card and house panel 2 and 3 require a box layout in order to display the cards vertically
@@ -232,6 +232,11 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         centerArea.add(pAll, BorderLayout.SOUTH);
         centerArea.add(deckPanel, BorderLayout.CENTER);
         add(centerArea, BorderLayout.CENTER);
+
+
+
+
+
     }
 
     /**
@@ -244,11 +249,12 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         mithFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mithFrame.setContentPane(this);
         mithFrame.setPreferredSize(new Dimension(1200, 900));
-        mithFrame.setMenuObserver(this);
 
         //Display
         mithFrame.pack();
         mithFrame.setVisible(true);
+
+        newGame(4, Behavior.EASY_AI);
     }
 
     /**
@@ -256,7 +262,6 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      * @param totalPlayerCount
      * @param difficultyLevel
      */
-    @Override
     public void newGame(int totalPlayerCount, int difficultyLevel) {
 
         Player[] players = new Player[totalPlayerCount];
@@ -280,8 +285,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      * @param args
      */
     public static void main(String[] args){
+
         MooseInTheHouseGUI frame = new MooseInTheHouseGUI();
         frame.display();
+
     }
 
     class DragPanel extends JPanel {
