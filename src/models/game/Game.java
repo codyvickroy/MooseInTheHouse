@@ -32,9 +32,6 @@ public class Game {
         for (int i = 0; i < players.length; i++) {
             players[i].addCardsToHand(deck.deal(4));
         }
-
-
-        gameLoop(false);
     }//end constructor
 
     /**
@@ -67,6 +64,7 @@ public class Game {
 
                 Move playerMove = players[i].makeMove();          //player makes the move
                 processMove(playerMove);
+
                 updateHandObserver();
                 updateHouseObserver();
 
@@ -233,6 +231,8 @@ public class Game {
     private void updatePointsObserver() {
         if (cardObserver != null)
             cardObserver.updatePoints();
+        else
+            System.out.println("asdf");
     }
 
     public static void main(String[] args) {

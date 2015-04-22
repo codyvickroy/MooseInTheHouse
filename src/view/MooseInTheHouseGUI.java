@@ -68,7 +68,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
 
     //Define the labels of the cards for the game
-    final int HAND_SIZE = 4;
+    final int HAND_SIZE = 5;
     final int HOUSE_SIZE = 4;
 
     //Declare the labels for each players cards in their hand and in their house as well as the deck and discard pile
@@ -106,31 +106,18 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         c2HandPanel.setLayout(c2cardPanelLayout);
         c2HandPanel.setBorder(BorderFactory.createEmptyBorder(60, 20, 10, 10));
         c2housePanel.setLayout(c2housePanelLayout);
-        c2housePanel.setBorder(BorderFactory.createEmptyBorder(20,10,10,20));
+        c2housePanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 20));
         c3HandPanel.setLayout(c3cardPanelLayout);
-        c3HandPanel.setBorder(BorderFactory.createEmptyBorder(60,10,10,20));
+        c3HandPanel.setBorder(BorderFactory.createEmptyBorder(60, 10, 10, 20));
 
         c3housePanel.setLayout(c3housePanelLayout);
-        c3housePanel.setBorder(BorderFactory.createEmptyBorder(20,10,10,20));
-
-        //Get the points for each player and display them near their cards
-        //int p1score = Game.getPlayers()[0].getPoints();
-        //int p2score = Game.getPlayers()[1].getPoints();
-        //int p3score = Game.getPlayers()[2].getPoints();
-        //int p4score = Game.getPlayers()[3].getPoints();
-
-        //Initialize the players scores to 0
-        int p1score = 0;
-        int p2score = 0;
-        int p3score = 0;
-        int p4score = 0;
-
+        c3housePanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 20));
 
         //Set the name for each players area and add them to the JPanel
-        c1score.setText("Score: " + p2score);
-        c2score.setText("Score: " + p3score);
-        c3score.setText("Score: " + p4score);
-        pscore.setText("Score: " + p1score);
+        c1cardlabel.setText("Score: ");
+        c2cardlabel.setText("Score: ");
+        c3cardlabel.setText("Score: ");
+        pcardlabel.setText("Score: ");
         c1HandPanel.add(c1cardlabel);
         c2HandPanel.add(c2cardlabel);
         c3HandPanel.add(c3cardlabel);
@@ -290,6 +277,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
         game = new Game(players);
         game.setCardObserver(this);
+        game.gameLoop(false);
     }
 
     /**
@@ -452,8 +440,6 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
             src.draggingLabel = null;
             window.setVisible(false);
         }
-
-
     }
 
     /**
@@ -477,6 +463,43 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                 }
 
                 playerHand[j].setIcon(cardImage);
+            }
+        }
+
+        // User
+        Card[] hand = Game.getPlayers()[0].getHand();
+        for (int i = 0; i < hand.length; i++) {
+            playerHand[i].setIcon(hand[i].getImage());
+        }
+        for (int i = hand.length; i < HAND_SIZE; i++) {
+            playerHand[i].setIcon(Card.getEmptyCard());
+        }
+
+        hand = Game.getPlayers()[1].getHand();
+        for (int i = 0; i < hand.length; i++) {
+            c1Hand[i].setIcon(Card.getCardBack());
+        }
+        for (int i = hand.length; i < HAND_SIZE; i++) {
+            c1Hand[i].setIcon(Card.getEmptyCard());
+        }
+
+        if (Game.getPlayers().length > 2) {
+            hand = Game.getPlayers()[2].getHand();
+            for (int i = 0; i < hand.length; i++) {
+                c2Hand[i].setIcon(Card.getCardBack());
+            }
+            for (int i = hand.length; i < HAND_SIZE; i++) {
+                c2Hand[i].setIcon(Card.getEmptyCard());
+            }
+        }
+
+        if (Game.getPlayers().length == 4) {
+            hand = Game.getPlayers()[3].getHand();
+            for (int i = 0; i < hand.length; i++) {
+                c3Hand[i].setIcon(Card.getCardBack());
+            }
+            for (int i = hand.length; i < HAND_SIZE; i++) {
+                c3Hand[i].setIcon(Card.getEmptyCard());
             }
         }
     }
@@ -555,10 +578,14 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
 
         Player[] players = Game.getPlayers();
 
-        for (int i = 0; i < players.length; i++) {
-            int points = players[i].getPoints();
+        pcardlabel.setText("Score: " + players[0].getPoints());
+        c1cardlabel.setText("Score: " + players[1].getPoints());
 
-            // TODO display points
+        if (players.length > 3) {
+            c2cardlabel.setText("Score: " + players[2].getPoints());
+        }
+        if (players.length == 4) {
+            c3cardlabel.setText("Score: " + players[3].getPoints());
         }
     }
 }
