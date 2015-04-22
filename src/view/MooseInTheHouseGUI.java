@@ -1,6 +1,7 @@
 package view;
 
 import models.card.Card;
+import models.card.bottom.Moose;
 import models.game.Game;
 import models.player.Bot;
 import models.player.Human;
@@ -35,18 +36,18 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
     //Define all the JPanels needed to hold the cards, and houses
     //Card and house panel 2 and 3 require a box layout in order to display the cards vertically
     JPanel c1HandPanel = new JPanel();
-    JPanel playerHousePanel = new JPanel();
+    DragPanel playerHousePanel = new DragPanel();
     JPanel c2HandPanel = new JPanel();
     LayoutManager c2cardPanelLayout = new BoxLayout(c2HandPanel, BoxLayout.Y_AXIS);
-    JPanel c2housePanel = new JPanel();
+    DragPanel c2housePanel = new DragPanel();
     LayoutManager c2housePanelLayout = new BoxLayout(c2housePanel, BoxLayout.Y_AXIS);
     JPanel c3HandPanel = new JPanel();
     LayoutManager c3cardPanelLayout = new BoxLayout(c3HandPanel, BoxLayout.Y_AXIS);
-    JPanel c3housePanel = new JPanel();
+    DragPanel c3housePanel = new DragPanel();
     LayoutManager c3housePanelLayout = new BoxLayout(c3housePanel, BoxLayout.Y_AXIS);
     DragPanel pcardPanel = new DragPanel();
-    JPanel c1HousePanel = new JPanel();
-    JPanel deckPanel = new JPanel();
+    DragPanel c1HousePanel = new DragPanel();
+    DragPanel deckPanel = new DragPanel();
 
     Game game;
 
@@ -65,6 +66,8 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
     JLabel c3score = new JLabel();
     JLabel pcardlabel = new JLabel();
     JLabel pscore = new JLabel();
+
+    public static UUID[] ids = new UUID[5];
 
 
     //Define the labels of the cards for the game
@@ -203,10 +206,10 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         //enable all houses to be dragged to
         c1HousePanel.setTransferHandler(th);
         playerHousePanel.setTransferHandler(th);
-
         c2housePanel.setTransferHandler(th);
         c3housePanel.setTransferHandler(th);
         pcardPanel.setTransferHandler(th);
+        deckPanel.setTransferHandler(th);
 
         //Enable the user to drag from their cards
         pcardPanel.addMouseListener(handler);
@@ -234,8 +237,12 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         add(centerArea, BorderLayout.CENTER);
 
 
-
-
+        //setup the UUID array
+        ids[0] = playerHousePanel.getID();
+        ids[1] = c1HousePanel.getID();
+        ids[2] = c2housePanel.getID();
+        ids[3] = c3housePanel.getID();
+        ids[4] = deckPanel.getID();
 
     }
 
@@ -271,7 +278,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
 
         // Create bots with specified difficulty level
-        for (int i = 1; i < totalPlayerCount; i++) {
+        for (int i = 0; i < totalPlayerCount; i++) {
             players[i] = new Bot(aiDifficulty);
         }
 
@@ -418,16 +425,53 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
                 JLabel l = new JLabel();
                 l.setIcon(src.draggingLabel.getIcon());
                 l.setText(src.draggingLabel.getText());
-                target.add(l);
+                //target.add(l);
                 target.revalidate();
+
+                int index = 0;
+                getIndex:
+                for(Component c : src.getComponents()){
+                    if(c.equals(src.draggingLabel)){
+                        break getIndex;
+                    }
+                    index++;
+                }
+                System.out.println(index);
+
+                //do things
+                if(MooseInTheHouseGUI.ids[0].equals(target.getID())){
+                    System.out.println("player");
+                    Game.getHuman().setMove(index-1,0);
+                }else if(MooseInTheHouseGUI.ids[1].equals(target.getID())){
+                    System.out.println("c1");
+                }else if(MooseInTheHouseGUI.ids[2].equals(target.getID())){
+                    System.out.println("c2");
+                }else if(MooseInTheHouseGUI.ids[3].equals(target.getID())){
+                    System.out.println("c3");
+                }else if(MooseInTheHouseGUI.ids[4].equals(target.getID())){
+                    System.out.println("discard");
+                    Game.getHuman().setMove(index-1, -1);
+                }else{
+                    System.out.println("error");
+                    return false;
+                }
+
+                //updateHouses();
+                //updateHands();
+
+
                 return true;
             } catch(UnsupportedFlavorException ufe) {
                 ufe.printStackTrace();
             } catch(java.io.IOException ioe) {
                 ioe.printStackTrace();
+            }  catch(Exception e){
+                System.out.println(e);
             }
             return false;
         }
+
+
 
         @Override protected void exportDone(JComponent c, Transferable data, int action) {
             //System.out.println("exportDone");
