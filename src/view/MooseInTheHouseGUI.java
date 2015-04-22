@@ -23,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * GUI class
@@ -316,11 +317,21 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver {
         frame.display();
 
     }
-
-
+    
     class DragPanel extends JPanel {
+        private UUID panelID;
+
         public DragPanel() {
             super();
+            generateID();
+        }
+
+        private void generateID(){
+            this.panelID = UUID.randomUUID();
+        }
+
+        public UUID getID(){
+            return panelID;
         }
         public JLabel draggingLabel;
     }
