@@ -231,8 +231,6 @@ public class Game {
     private void updatePointsObserver() {
         if (cardObserver != null)
             cardObserver.updatePoints();
-        else
-            System.out.println("asdf");
     }
 
     public static void main(String[] args) {

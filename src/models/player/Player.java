@@ -1,6 +1,7 @@
 package models.player;
 
 import models.card.Card;
+import models.game.Game;
 import models.game.Move;
 
 import java.util.ArrayList;
@@ -8,12 +9,13 @@ import java.util.Arrays;
 
 public abstract class Player {
 
+    private boolean takingTurn;
+    private Move move;
     private static int idCounter = 0;
     private int id, points;
 
     protected ArrayList<Card> hand = new ArrayList<Card>();
     protected ArrayList<Card> house = new ArrayList<Card>();
-
 
     public Player() {
         // Set ID to global counter
@@ -21,6 +23,8 @@ public abstract class Player {
         hand = new ArrayList<Card>();
         house = new ArrayList<Card>();
         points = 0;
+        move = null;
+        takingTurn = false;
     }
 
     public abstract Move makeMove();
@@ -80,7 +84,20 @@ public abstract class Player {
         return house.toArray(new Card[house.size()]);
     }
 
-    public abstract void setMove(int handIndex, int playerID);
+    public void setMove(int handIndex, int playerID) {
+        Card card = house.get(handIndex);
+
+        if (takingTurn) {
+            if (playerID == Move.DISCARD_PILE) {
+                move = new Move(getID(), card, Move.DISCARD_PILE, 0);
+                takingTurn = false;
+            } else if (card.validate(Game.getPlayerByID(playerID).getHouse()) != Card.INVALID_POSITION) {
+                move = new Move(getID(), card, playerID, card.validate(Game.getPlayerByID(playerID).getHouse()));
+                takingTurn = false;
+            }
+            System.out.println(move);
+        }
+    }
 
     /**
      * Searches the supplied array of players for one that matches the supplied ID
