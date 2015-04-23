@@ -200,7 +200,7 @@ public class GameGUI extends JFrame
                 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
                 if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
                     try {
-                        desktop.browse(new URI("http://www.rocksrocksrocks.rocks/moose/"));
+                        desktop.browse(new URI("http://rocksrocksrocks.rocks/moose/"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
