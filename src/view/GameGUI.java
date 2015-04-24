@@ -117,15 +117,27 @@ public class GameGUI extends JFrame
          * ActionListener for when New Game is selected.
          */
         nMenuItem.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent event) {
+
+                boolean botsOnly = false;
+
                 String[] buttons = {"Easy", "Medium", "Hard"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
                 int difficulty = JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
                 String[] pbuttons = {"2", "3", "4", "AI ONLY"};
                 int opponents = JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
 
-                menuObserver.newGame(opponents + 2, difficulty);
+                opponents += 2;
+
+                if (opponents > 4) {
+                    botsOnly = true;
+                    opponents = 4;
+                }
+
+                menuObserver.newGame(opponents, difficulty, botsOnly);
             }
         });
 

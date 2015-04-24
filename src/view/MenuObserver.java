@@ -5,6 +5,6 @@ package view;
  */
 public interface MenuObserver {
 
-    public void newGame(int playerCount, int difficulty);
+    public void newGame(int playerCount, int difficulty, boolean botsOnly);
 
 }
