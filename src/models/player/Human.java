@@ -24,7 +24,7 @@ public class Human extends Player {
         move = null;
         takingTurn = true;
 
-        while(takingTurn && hand.size() > 0) {}
+//        while(takingTurn && hand.size() > 0) {}
 
 
         // Update player's hand

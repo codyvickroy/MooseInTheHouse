@@ -6,16 +6,16 @@ import models.player.Player;
 import remote.Remote;
 import view.CardObserver;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
     private static Player[] players;
-    private static List<Move> moveHistory = new ArrayList<Move>();
+    private static List<Move> moveHistory;
     private static Deck deck;
     private CardObserver cardObserver;
-    private int timeDelay;
 
     /**
      * Gets the number of opponents and deals to all opponents.
@@ -23,40 +23,37 @@ public class Game {
      *
      * @param players opponents to add
      */
-    public Game(Player[] players, int timeDelay) {
+    public Game(Player[] players) {
         Game.players = players;
         deck = new Deck();
-        this.timeDelay = timeDelay;
+        moveHistory = new ArrayList<Move>();
+        cardObserver = null;
 
-
-        for (int i = 0; i < players.length; i++) {
-            players[i].addCardsToHand(deck.deal(4));
+        for (Player player : players) {
+            player.addCardsToHand(deck.deal(4));
         }
     }//end constructor
 
-    /**
-     * The meat of the game.
-     * <p/>
-     * move history
-     * points of all opponents
-     */
-    public void gameLoop(boolean reportStatistics) {
-
-        int roundCount = 0;
+    public void gameLoop(boolean reportStatistics, int timeDelay) {
 
         if (reportStatistics) {
             Remote.newGameID();
 
             if (!Remote.initGame()) {
+                
                 System.err.println("Game init failed!");
             }
         }
+
+        int roundCount = 0;
+        boolean gameOver = false;
 
         do {// Main loop
 
             System.out.println("ROUND " + roundCount++);
 
-            for (int i = 0; i <= (players.length - 1) && (!gameOver()); i++) {
+            for (int i = 0; i <= (players.length - 1) && ! gameOver; i++) {
+
                 // Deal cards
                 players[i].addCardsToHand(deck.deal(1));
                 updateHandObserver();
@@ -71,11 +68,10 @@ public class Game {
                 if (timeDelay > 0) {
                     try {
                         Thread.sleep(timeDelay);
-                    } catch(InterruptedException ex) {
+                    } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
                 }
-
 
                 if (reportStatistics) {
                     Remote.uploadMove(playerMove);                         //Uploads move to game database
@@ -83,8 +79,10 @@ public class Game {
                 }
 
                 moveHistory.add(playerMove);                    //adds the move to our move history for stats
+
+                gameOver = gameOver();
             }//end for all opponents
-        } while (!gameOver());
+        } while  ( ! gameOver);
     }
 
     private void processMove(Move move) {
@@ -129,11 +127,37 @@ public class Game {
                     return false;
                 }
             }
+            JOptionPane.showMessageDialog(null, getWinners());
             return true;
         } else {
             return false;
         }
     }//end allPlayersPassed
+
+    private String getWinners() {
+
+        int lowestPoints = 99;
+
+        for (Player player : players) {
+            if (player.getPoints() < lowestPoints) {
+                lowestPoints = player.getPoints();
+            }
+        }
+
+        String returnString = "Player";
+        final int originalLength = returnString.length();
+
+        for (Player player : players) {
+            if (player.getPoints() == lowestPoints) {
+                if (returnString.length() > originalLength) {
+                    returnString += " and ";
+                }
+                returnString += " " + player.getID();
+            }
+        }
+
+        return returnString + " won!";
+    }
 
     /**
      * Returns the player with the given id.

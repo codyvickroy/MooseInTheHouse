@@ -164,11 +164,6 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
             c1HandPanel.add(c1Hand[i]);
         }
 
-        for (int i = 0; i < c1Hand.length; i++) {
-            c1Hand[i] = new JLabel(Card.getEmptyCard());
-            c1HandPanel.add(c1Hand[i]);
-        }
-
         for (int i = 0; i < c2Hand.length; i++) {
             c2Hand[i] = new JLabel(Card.getEmptyCard());
             c2HandPanel.add(c2Hand[i]);
@@ -258,7 +253,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         mithFrame.pack();
         mithFrame.setVisible(true);
 
-        newGame(5, 2);
+        newGame(4, 2, true);
     }
 
     /**
@@ -266,15 +261,18 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      * @param totalPlayerCount
      * @param difficultyLevel
      */
-    public void newGame(int totalPlayerCount, int difficultyLevel) {
+    public void newGame(int totalPlayerCount, int difficultyLevel, boolean botsOnly) {
 
         Player[] players;
-        int timeDelay = 0;
+        Player.refreshCounter();
+
+        // Delay between turns (increases readability of bot moves)
+        final int TIME_DELAY = 100;
 
         // Get AI level from game
         Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
 
-        if (totalPlayerCount <= 4) {
+        if ( ! botsOnly) {
             players = new Player[totalPlayerCount];
 
             players[0] = new Human();
@@ -290,13 +288,12 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
             for (int i = 0; i < players.length; i++) {
                 players[i] = new Bot(aiDifficulty);
             }
-
-            timeDelay = 200;
         }
 
-        game = new Game(players, timeDelay);
+        game = new Game(players);
         game.setCardObserver(this);
-        game.gameLoop(false);
+
+        game.gameLoop(true, TIME_DELAY);
     }
 
     /**
@@ -307,7 +304,6 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
 
         MooseInTheHouseGUI frame = new MooseInTheHouseGUI();
         frame.display();
-
     }
 
     class DragPanel extends JPanel {
@@ -508,23 +504,8 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      */
     @Override
     public void updateHands(){
+
         Player[] players = Game.getPlayers();
-
-        for(int i = 0; i < 1; i++){
-            Card[] hand = players[i].getHand();
-            for(int j = 0; j < hand.length; j++){
-                ImageIcon cardImage;
-                if (players[i] instanceof Human) {
-                    // Show front of card if user
-                    cardImage = hand[j].getImage();
-                } else {
-                    // Show back of card if computer
-                    cardImage = Card.getCardBack();
-                }
-
-                playerHand[j].setIcon(cardImage);
-            }
-        }
 
         // User
         Card[] hand = Game.getPlayers()[0].getHand();

@@ -27,6 +27,11 @@ public abstract class Player {
         takingTurn = false;
     }
 
+    public static void refreshCounter() {
+        idCounter = 0;
+    }
+
+
     public abstract Move makeMove();
 
     /**
@@ -57,7 +62,6 @@ public abstract class Player {
 
     public void setCardInHouse(Move move) {
         if ( ! move.getCard().isBottomCard()) {
-            System.out.println(move.getCard() + " is to be removed!");
             if (move.getCard().getCardClass() != null) {
                 points++;
             }
