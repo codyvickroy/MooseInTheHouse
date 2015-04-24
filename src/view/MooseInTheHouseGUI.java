@@ -438,8 +438,8 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
                 JLabel l = new JLabel();
                 l.setIcon(src.draggingLabel.getIcon());
                 l.setText(src.draggingLabel.getText());
-                target.add(l);
-                target.revalidate();
+                // target.add(l);
+                // target.revalidate();
 
                 int index = 0;
                 getIndex:
