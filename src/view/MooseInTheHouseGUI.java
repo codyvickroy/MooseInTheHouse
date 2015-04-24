@@ -59,13 +59,9 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
 
     //Define the labels to label which cards are whose
     JLabel c1cardlabel = new JLabel();
-    JLabel c1score = new JLabel();
     JLabel c2cardlabel = new JLabel();
-    JLabel c2score = new JLabel();
     JLabel c3cardlabel = new JLabel();
-    JLabel c3score = new JLabel();
     JLabel pcardlabel = new JLabel();
-    JLabel pscore = new JLabel();
 
     public static UUID[] ids = new UUID[5];
 
@@ -253,6 +249,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
     public void display()
     {
         GameGUI mithFrame = new GameGUI();
+        mithFrame.setMenuObserver(this);
         mithFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mithFrame.setContentPane(this);
         mithFrame.setPreferredSize(new Dimension(1200, 900));
@@ -261,7 +258,7 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         mithFrame.pack();
         mithFrame.setVisible(true);
 
-        newGame(4, Behavior.EASY_AI);
+        newGame(5, 2);
     }
 
     /**
@@ -271,18 +268,33 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
      */
     public void newGame(int totalPlayerCount, int difficultyLevel) {
 
-        Player[] players = new Player[totalPlayerCount];
-        players[0] = new Human();
+        Player[] players;
+        int timeDelay = 0;
 
         // Get AI level from game
         Behavior aiDifficulty = Behavior.getAI(difficultyLevel);
 
-        // Create bots with specified difficulty level
-        for (int i = 1; i < totalPlayerCount; i++) {
-            players[i] = new Bot(aiDifficulty);
+        if (totalPlayerCount <= 4) {
+            players = new Player[totalPlayerCount];
+
+            players[0] = new Human();
+
+            // Create bots with specified difficulty level
+            for (int i = 1; i < players.length; i++) {
+                players[i] = new Bot(aiDifficulty);
+            }
+        } else {
+            players = new Player[4];
+
+            // Create only bots with specified difficulty level
+            for (int i = 0; i < players.length; i++) {
+                players[i] = new Bot(aiDifficulty);
+            }
+
+            timeDelay = 200;
         }
 
-        game = new Game(players);
+        game = new Game(players, timeDelay);
         game.setCardObserver(this);
         game.gameLoop(false);
     }
@@ -397,10 +409,11 @@ public class MooseInTheHouseGUI extends JPanel implements CardObserver, MenuObse
         }
 
         @Override public boolean canImport(TransferSupport support) {
-            if(!support.isDrop()) {
-                return false;
-            }
-            return true;
+            return false;
+//            if(!support.isDrop()) {
+//                return false;
+//            }
+//            return true;
         }
 
         @Override public int getSourceActions(JComponent c) {

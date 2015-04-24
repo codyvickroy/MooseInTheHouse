@@ -56,12 +56,12 @@ public class GameGUI extends JFrame
         JMenuBar menubar = new JMenuBar();
 
         //Top most menu items
-        JMenu file = new JMenu("File");
+        final JMenu file = new JMenu("File");
 
         //Submenu items, under file
         JMenuItem nMenuItem = new JMenuItem("New Game");
-        JMenuItem lMenuItem = new JMenuItem("Login");
-        JMenuItem rMenuItem = new JMenuItem("Register");
+        final JMenuItem lMenuItem = new JMenuItem("Login");
+        final JMenuItem rMenuItem = new JMenuItem("Register");
         JMenuItem sMenuItem = new JMenuItem("Game Statistics");
         JMenuItem eMenuItem = new JMenuItem("Exit Game");
         eMenuItem.setToolTipText("Exit game");
@@ -119,10 +119,10 @@ public class GameGUI extends JFrame
         nMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                String[] buttons = {"Hard", "Medium", "Easy"};
+                String[] buttons = {"Easy", "Medium", "Hard"};
                 int messageType = JOptionPane.QUESTION_MESSAGE;
                 int difficulty = JOptionPane.showOptionDialog(null, "Please select level: ", "New Game Options", 0, messageType, null, buttons, buttons[2]);
-                String[] pbuttons = {"2", "3", "4"};
+                String[] pbuttons = {"2", "3", "4", "AI ONLY"};
                 int opponents = JOptionPane.showOptionDialog(null, "Please select number of players: ", "New Game Options", 0, messageType, null, pbuttons, pbuttons[2]);
 
                 menuObserver.newGame(opponents + 2, difficulty);
@@ -186,8 +186,6 @@ public class GameGUI extends JFrame
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed To register", "Failed To register", JOptionPane.ERROR_MESSAGE);
                 }
-
-
         }
     });
 

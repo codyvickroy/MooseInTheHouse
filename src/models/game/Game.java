@@ -2,9 +2,7 @@ package models.game;
 
 import models.card.Card;
 import models.card.top.MooseBait;
-import models.player.Bot;
 import models.player.Player;
-import models.player.ai.difficulties.Easy;
 import remote.Remote;
 import view.CardObserver;
 
@@ -17,6 +15,7 @@ public class Game {
     private static List<Move> moveHistory = new ArrayList<Move>();
     private static Deck deck;
     private CardObserver cardObserver;
+    private int timeDelay;
 
     /**
      * Gets the number of opponents and deals to all opponents.
@@ -24,9 +23,10 @@ public class Game {
      *
      * @param players opponents to add
      */
-    public Game(Player[] players) {
+    public Game(Player[] players, int timeDelay) {
         Game.players = players;
         deck = new Deck();
+        this.timeDelay = timeDelay;
 
 
         for (int i = 0; i < players.length; i++) {
@@ -67,6 +67,15 @@ public class Game {
 
                 updateHandObserver();
                 updateHouseObserver();
+
+                if (timeDelay > 0) {
+                    try {
+                        Thread.sleep(timeDelay);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+
 
                 if (reportStatistics) {
                     Remote.uploadMove(playerMove);                         //Uploads move to game database
@@ -231,16 +240,6 @@ public class Game {
     private void updatePointsObserver() {
         if (cardObserver != null)
             cardObserver.updatePoints();
-    }
-
-    public static void main(String[] args) {
-        Player[] players = new Player[]{
-                new Bot(new Easy()),
-                new Bot(new Easy()),
-                new Bot(new Easy())
-        };
-
-        Game game = new Game(players);
     }
 
     public static Player getHuman() {

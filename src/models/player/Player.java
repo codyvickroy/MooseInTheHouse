@@ -56,8 +56,11 @@ public abstract class Player {
     }
 
     public void setCardInHouse(Move move) {
-        if ( ! move.getCard().isBottomCard() && move.getCard().getCardClass() != null) {
-            points++;
+        if ( ! move.getCard().isBottomCard()) {
+            System.out.println(move.getCard() + " is to be removed!");
+            if (move.getCard().getCardClass() != null) {
+                points++;
+            }
             house.remove(move.getHousePosition());
         } else {
             setCardInHouse(move.getHousePosition(), move.getCard());
