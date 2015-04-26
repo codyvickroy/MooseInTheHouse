@@ -128,13 +128,19 @@ public class Game {
                 }
             }
             JOptionPane.showMessageDialog(null, getWinners());
+            Remote.uploadEnd();
             return true;
         } else {
             return false;
         }
     }//end allPlayersPassed
 
-    private String getWinners() {
+    public static boolean reportGame()
+    {
+        return true;
+    }
+
+    public static String getWinners() {
 
         int lowestPoints = 99;
 
