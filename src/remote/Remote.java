@@ -49,12 +49,41 @@ public class Remote
 
         return Boolean.parseBoolean(inputLine);
     }
+    public static Boolean uploadEnd()
+    {
+        String inputLine ="";
+        Player[] players = Game.getPlayers();
+        int size = players.length;
+        String playerName = GameGUI.getPlayerName();
+
+        try{
+            String site = getMasterServer() + "endGame.php?id=";
+            site +=currentGameID();
+            site +="&f=";
+            site += Game.getWinners().replace(" ", "%");
+            site +="&p=";
+            site +=GameGUI.getPlayerName();
+            //System.out.println(site);
+            URL web = new URL(site);
+            URLConnection gate = web.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(gate.getInputStream()));
+            inputLine = in.readLine();
+            //System.out.println(inputLine);
+        }
+        catch(Exception e)
+        {
+            error(e);
+            return false;
+        }
+        return Boolean.parseBoolean(inputLine);
+    }
 
     public static Boolean uploadScores()
     {
         String inputLine ="";
         Player[] players = Game.getPlayers();
         int size = players.length;
+        String playerName = GameGUI.getPlayerName();
 
         try{
             String site = getMasterServer() + "updateScores.php?id=";
